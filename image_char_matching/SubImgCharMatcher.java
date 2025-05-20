@@ -3,51 +3,46 @@ package image_char_matching;
 import java.util.*;
 
 /**
- * A class responsible for matching image brightness to the closest ASCII character
- * from a given character set.
+ * Manages ASCII characters and their brightness values,
+ * and provides functionality to match image brightness to characters.
  */
 public class SubImgCharMatcher {
+    private final CharBrightnessCache cache;
 
     /**
-     * Constructs a matcher with an initial character set.
-     * Computes and stores the normalized brightness values.
-     *
-     * @param charset an array of ASCII characters to be used for matching
+     * Constructor that initializes the matcher with a given character set.
+     * @param charset an array of ASCII characters
      */
     public SubImgCharMatcher(char[] charset) {
-        // Initialize sets and compute brightness values
+        cache = new CharBrightnessCache();
+        for (char c : charset) {
+            cache.addChar(c);
+        }
     }
 
     /**
-     * Given a brightness value between 0 and 1, returns the character
-     * with the closest brightness from the current character set.
-     *
-     * @param brightness the grayscale brightness value (between 0 and 1)
-     * @return the ASCII character closest in brightness
+     * Returns the character whose normalized brightness is closest to the input.
+     * If multiple characters have the same brightness difference, returns the one with lowest ASCII value.
+     * @param brightness normalized image brightness in range [0, 1]
+     * @return the best matching ASCII character
      */
     public char getCharByImageBrightness(double brightness) {
-        // Match to closest brightness (use abs or rounding strategy)
-        return '?'; // placeholder
+        return cache.getClosestChar(brightness);
     }
 
     /**
-     * Adds a new character to the charset and updates brightness maps.
-     * If the character is already in the set, it is ignored.
-     *
-     * @param c the character to add
+     * Adds a new character to the character set (if not already included).
+     * @param c character to add
      */
     public void addChar(char c) {
-        // Add character and recompute brightness normalization
+        cache.addChar(c);
     }
 
     /**
-     * Removes a character from the charset and updates brightness maps.
-     * If the character is not in the set, nothing happens.
-     *
-     * @param c the character to remove
+     * Removes a character from the character set (if it exists).
+     * @param c character to remove
      */
     public void removeChar(char c) {
-        // Remove character and recompute normalization
+        cache.removeChar(c);
     }
-
 }
