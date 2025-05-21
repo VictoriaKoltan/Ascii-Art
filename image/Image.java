@@ -11,15 +11,34 @@ import java.io.IOException;
 
 /**
  * A package-private class of the package image.
+ * Represents an image that can be loaded from a file or created from a pixel
+ * array.
  * 
  * @author Dan Nirel
  */
 public class Image {
 
+    /**
+     * 2D array of Colors representing the pixels of the image
+     */
     private final Color[][] pixelArray;
+
+    /**
+     * Width of the image in pixels
+     */
     private final int width;
+
+    /**
+     * Height of the image in pixels
+     */
     private final int height;
 
+    /**
+     * Constructs an Image object by loading an image from a file.
+     *
+     * @param filename path to the image file to be loaded
+     * @throws InvalidImageException if the image file cannot be loaded
+     */
     public Image(String filename) throws InvalidImageException {
         BufferedImage im;
         try {
@@ -39,24 +58,53 @@ public class Image {
 
     }
 
+    /**
+     * Constructs an Image object from a 2D array of Color objects.
+     *
+     * @param pixelArray 2D array of Colors representing the pixels of the image
+     * @param width      width of the image in pixels
+     * @param height     height of the image in pixels
+     */
     public Image(Color[][] pixelArray, int width, int height) {
         this.pixelArray = pixelArray;
         this.width = width;
         this.height = height;
     }
 
+    /**
+     * Returns the width of the image.
+     *
+     * @return width in pixels
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Returns the height of the image.
+     *
+     * @return height in pixels
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Returns the Color of a specific pixel in the image.
+     *
+     * @param x row index of the pixel
+     * @param y column index of the pixel
+     * @return Color object representing the pixel's color
+     */
     public Color getPixel(int x, int y) {
         return pixelArray[x][y];
     }
 
+    /**
+     * Saves the current image to a JPEG file.
+     *
+     * @param fileName name of the file to save (without extension)
+     */
     public void saveImage(String fileName) {
         // Initialize BufferedImage, assuming Color[][] is already properly
         // populated.
@@ -75,5 +123,4 @@ public class Image {
             throw new RuntimeException(e);
         }
     }
-
 }

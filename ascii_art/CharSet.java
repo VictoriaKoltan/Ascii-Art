@@ -11,19 +11,40 @@ import ascii_art.exceptions.InvalidCharRemoveException;
 import ascii_art.exceptions.ParamException;
 import image.Image;
 
+/**
+ * Manages the set of characters used for ASCII art generation.
+ * Provides functionality to add, remove, and manipulate the character set
+ * through various commands.
+ */
 public class CharSet implements IParamHandler {
 
+    /**
+     * The set of characters available for ASCII art generation
+     */
     private Set<Character> chars;
 
+    /**
+     * Enumeration for character operations (add or remove)
+     */
     enum Op {
         REMOVE, ADD
     }
 
+    /**
+     * Constructs a CharSet with default characters (digits 0-9)
+     */
     public CharSet() {
         chars = new HashSet<>();
         handleRange("0-9", Op.ADD);
     }
 
+    /**
+     * Handles character operations based on operation type and input.
+     * 
+     * @param input the input string specifying which characters to operate on
+     * @param op    the operation type (ADD or REMOVE)
+     * @throws InvalidCharOpeartionException if the operation is invalid
+     */
     public void handleOp(String input, Op op) throws InvalidCharOpeartionException {
         if (input.equals("all")) {
             handleAllChars(op);
@@ -41,6 +62,11 @@ public class CharSet implements IParamHandler {
 
     }
 
+    /**
+     * Retrieves the current character set as a string.
+     * 
+     * @return string containing all characters in the set
+     */
     @Override
     public String get() {
         StringBuilder sb = new StringBuilder();
@@ -50,6 +76,9 @@ public class CharSet implements IParamHandler {
         return sb.toString();
     }
 
+    /**
+     * Prints the characters in the set in sorted order.
+     */
     public void printChars() {
 
         // Sort the characters before printing
@@ -64,9 +93,15 @@ public class CharSet implements IParamHandler {
         for (char c : sortedChars) {
             System.out.print(c + " ");
         }
-
     }
 
+    /**
+     * Handles commands for the character set.
+     * 
+     * @param args command arguments
+     * @param img  the image (not used in this handler)
+     * @throws ParamException if the parameters are invalid
+     */
     @Override
     public void handleCommand(String[] args, Image img) throws ParamException {
         if (args.length < 2) {
@@ -82,6 +117,11 @@ public class CharSet implements IParamHandler {
         }
     }
 
+    /**
+     * Handles the remove command.
+     * 
+     * @param args command arguments
+     */
     private void remove(String[] args) {
         try {
             if (args.length < 2) {
@@ -93,6 +133,11 @@ public class CharSet implements IParamHandler {
         }
     }
 
+    /**
+     * Handles the add command.
+     * 
+     * @param args command arguments
+     */
     private void add(String[] args) {
         try {
             if (args.length < 2) {
@@ -105,6 +150,12 @@ public class CharSet implements IParamHandler {
         }
     }
 
+    /**
+     * Performs the specified operation (add or remove) on a single character.
+     * 
+     * @param op the operation type
+     * @param c  the character to operate on
+     */
     private void operate(Op op, char c) {
         if (op == Op.REMOVE)
             chars.remove(c);
@@ -112,12 +163,23 @@ public class CharSet implements IParamHandler {
             chars.add(c);
     }
 
+    /**
+     * Handles operations on all printable ASCII characters.
+     * 
+     * @param op the operation type
+     */
     private void handleAllChars(Op op) {
         for (char c = 32; c < 127; c++) {
             operate(op, c);
         }
     }
 
+    /**
+     * Handles operations on a range of characters.
+     * 
+     * @param range string representing a character range (e.g., "a-z")
+     * @param op    the operation type
+     */
     private void handleRange(String range, Op op) {
         char start = range.charAt(0);
         char end = range.charAt(2);
@@ -131,6 +193,11 @@ public class CharSet implements IParamHandler {
         }
     }
 
+    /**
+     * Returns the current character set as an array of chars.
+     * 
+     * @return array containing all characters in the set
+     */
     public char[] getChars() {
         // didnt found a better way to convert set to char array
         char[] charArray = new char[chars.size()];
