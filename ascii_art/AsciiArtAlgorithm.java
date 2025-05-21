@@ -2,8 +2,10 @@ package ascii_art;
 
 import image.Image;
 import image.ImagePadderAndSplitter;
+import ascii_art.exceptions.InvalidImageException;
 import image.BrightnessCalculator;
 import image_char_matching.SubImgCharMatcher;
+
 /**
  * A single execution of the ASCII Art Algorithm.
  * Responsible for converting an input image to a 2D ASCII character array.
@@ -17,8 +19,8 @@ public class AsciiArtAlgorithm {
     /**
      * Constructs an algorithm run with the required parameters.
      *
-     * @param image the image to convert
-     * @param charset the character set to use for brightness matching
+     * @param image      the image to convert
+     * @param charset    the character set to use for brightness matching
      * @param resolution block size resolution (e.g., 16, 32)
      */
     public AsciiArtAlgorithm(Image image, char[] charset, int resolution) {
@@ -37,8 +39,9 @@ public class AsciiArtAlgorithm {
      * 4. Matches brightness to the closest ASCII character from the charset.
      *
      * @return a 2D character array representing the ASCII art.
+     * @throws InvalidImageException
      */
-    public char[][] run() {
+    public char[][] run() throws InvalidImageException {
         // Step 1: Pad the original image
         Image paddedImage = ImagePadderAndSplitter.padToPowerOfTwo(image);
 

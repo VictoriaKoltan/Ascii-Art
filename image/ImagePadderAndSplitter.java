@@ -1,23 +1,29 @@
 package image;
 
 import java.awt.Color;
+
+import ascii_art.exceptions.InvalidImageException;
 import image.Image;
 //TODO  למה בחבילה הזאת ולמה מחלקה נפרדת  README להוסיף
 
 /**
- * Handles padding an image to power-of-two dimensions and splitting it into square blocks.
+ * Handles padding an image to power-of-two dimensions and splitting it into
+ * square blocks.
  */
 public class ImagePadderAndSplitter {
 
     private static final int WHITE = 255;
+
     /**
-     * Pads the given image with white pixels to make both width and height powers of 2.
+     * Pads the given image with white pixels to make both width and height powers
+     * of 2.
      * Padding is symmetric on all sides.
      *
      * @param original the original image
      * @return new Image object with padded size
+     * @throws InvalidImageException
      */
-    public static Image padToPowerOfTwo(Image original) {
+    public static Image padToPowerOfTwo(Image original) throws InvalidImageException {
         int originalWidth = original.getWidth();
         int originalHeight = original.getHeight();
 
@@ -47,15 +53,15 @@ public class ImagePadderAndSplitter {
                 paddedPixels[y + yOffset][x + xOffset] = original.getPixel(x, y);
             }
         }
-//TODO exception or not
-        return new Image(paddedPixels);
+        // TODO: ADD EXCEPTION HANDLING
+        return new Image(paddedPixels, newWidth, newHeight);
     }
 
     /**
      * Splits the image into non-overlapping square subimages of given blockSize.
      * Assumes image dimensions are divisible by blockSize.
      *
-     * @param image the input image to split
+     * @param image     the input image to split
      * @param blockSize the size (width and height) of each square block
      * @return 2D array of subimages
      */
@@ -78,8 +84,7 @@ public class ImagePadderAndSplitter {
                         pixels[y][x] = image.getPixel(col * blockSize + x, row * blockSize + y);
                     }
                 }
-                //TODO exception or not
-                subImages[row][col] = new Image(pixels);
+                subImages[row][col] = new Image(pixels, imgWidth, imgHeight);
             }
         }
         return subImages;
@@ -87,6 +92,7 @@ public class ImagePadderAndSplitter {
 
     /**
      * Helper function to compute the next power of two greater than or equal to n.
+     * 
      * @param n input integer
      * @return smallest power of 2 >= n
      */

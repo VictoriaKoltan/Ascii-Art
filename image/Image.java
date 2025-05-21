@@ -2,7 +2,7 @@ package image;
 
 import javax.imageio.ImageIO;
 
-import ascii_art.exceptions.InvalidImagePathArgument;
+import ascii_art.exceptions.InvalidImageException;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -20,12 +20,12 @@ public class Image {
     private final int width;
     private final int height;
 
-    public Image(String filename) throws InvalidImagePathArgument {
+    public Image(String filename) throws InvalidImageException {
         BufferedImage im;
         try {
             im = ImageIO.read(new File(filename));
         } catch (IOException e) {
-            throw new InvalidImagePathArgument(filename);
+            throw new InvalidImageException(filename);
         }
         width = im.getWidth();
         height = im.getHeight();

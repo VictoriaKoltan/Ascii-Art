@@ -3,7 +3,7 @@ package ascii_art;
 import java.util.Map;
 
 import ascii_art.exceptions.InvalidCommandException;
-import ascii_art.exceptions.InvalidImagePathArgument;
+import ascii_art.exceptions.InvalidImageException;
 import ascii_art.exceptions.ParamException;
 import ascii_output.AsciiOutput;
 import ascii_output.ConsoleAsciiOutput;
@@ -17,14 +17,12 @@ public class Shell {
     private final ResHandler resHandler;
     private final RoundHandler roundHandler;
     private final OutputHandler outputHandler;
-    private final AsciiOutput asciiOutput;
 
     public Shell() {
         charSet = new CharSet();
         resHandler = new ResHandler(2);
         roundHandler = new RoundHandler();
-        outputHandler = new OutputHandler();
-        asciiOutput = new ConsoleAsciiOutput();
+        outputHandler = new OutputHandler("Courier New", "out.html");
         handlers = Map.of(
                 "add", charSet,
                 "remove", charSet,
@@ -51,11 +49,11 @@ public class Shell {
         return true;
     }
 
-    private boolean handleInstruction(String instruction, Image img) {
+    private boolean handleInstruction(String instruction, Image img) throws InvalidImageException {
         if (instruction.equals("asciiArt")) {
             AsciiArtAlgorithm algorithm = new AsciiArtAlgorithm(img, charSet.getChars(), resHandler.getInt());
             char[][] result = algorithm.run();
-            asciiOutput.out(result);
+            outputHandler.out(result);
             return true;
         } else if (instruction.equals("exit")) {
             return false;
@@ -63,7 +61,7 @@ public class Shell {
         return handleSetting(instruction, img);
     }
 
-    public void run(String imageName) throws InvalidImagePathArgument {
+    public void run(String imageName) throws InvalidImageException {
 
         boolean toContinue = true;
         String imagePath = imageName;
@@ -79,12 +77,12 @@ public class Shell {
     public static void main(String[] args) {
         try {
             if (args.length != 1) {
-                throw new InvalidImagePathArgument("");
+                throw new InvalidImageException("");
             }
             String imagePath = args[0];
             Shell shell = new Shell();
             shell.run(imagePath);
-        } catch (InvalidImagePathArgument e) {
+        } catch (InvalidImageException e) {
             System.out.println(e.getMessage());
         }
     }
