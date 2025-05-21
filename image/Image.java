@@ -1,6 +1,9 @@
 package image;
 
 import javax.imageio.ImageIO;
+
+import ascii_art.exceptions.InvalidImagePathArgument;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -8,6 +11,7 @@ import java.io.IOException;
 
 /**
  * A package-private class of the package image.
+ * 
  * @author Dan Nirel
  */
 public class Image {
@@ -16,18 +20,23 @@ public class Image {
     private final int width;
     private final int height;
 
-    public Image(String filename) throws IOException {
-        BufferedImage im = ImageIO.read(new File(filename));
+    public Image(String filename) throws InvalidImagePathArgument {
+        BufferedImage im;
+        try {
+            im = ImageIO.read(new File(filename));
+        } catch (IOException e) {
+            throw new InvalidImagePathArgument(filename);
+        }
         width = im.getWidth();
         height = im.getHeight();
-
 
         pixelArray = new Color[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                pixelArray[i][j]=new Color(im.getRGB(j, i));
+                pixelArray[i][j] = new Color(im.getRGB(j, i));
             }
         }
+
     }
 
     public Image(Color[][] pixelArray, int width, int height) {
@@ -48,8 +57,9 @@ public class Image {
         return pixelArray[x][y];
     }
 
-    public void saveImage(String fileName){
-        // Initialize BufferedImage, assuming Color[][] is already properly populated.
+    public void saveImage(String fileName) {
+        // Initialize BufferedImage, assuming Color[][] is already properly
+        // populated.
         BufferedImage bufferedImage = new BufferedImage(pixelArray[0].length, pixelArray.length,
                 BufferedImage.TYPE_INT_RGB);
         // Set each pixel of the BufferedImage to the color from the Color[][].
@@ -58,7 +68,7 @@ public class Image {
                 bufferedImage.setRGB(y, x, pixelArray[x][y].getRGB());
             }
         }
-        File outputfile = new File(fileName+".jpeg");
+        File outputfile = new File(fileName + ".jpeg");
         try {
             ImageIO.write(bufferedImage, "jpeg", outputfile);
         } catch (IOException e) {
