@@ -89,7 +89,10 @@ public class Shell {
      */
     private boolean handleInstruction(String instruction, Image img) throws InvalidImageException {
         if (instruction.equals("asciiArt")) {
-            AsciiArtAlgorithm algorithm = new AsciiArtAlgorithm(img, charSet.getChars(), resHandler.getInt());
+            AsciiArtAlgorithm algorithm = new AsciiArtAlgorithm(
+                    img,
+                    charSet.getChars(),
+                    resHandler.getInt());
             char[][] result = algorithm.run();
             outputHandler.out(result);
             return true;

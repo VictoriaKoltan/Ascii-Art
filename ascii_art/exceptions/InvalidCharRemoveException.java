@@ -6,7 +6,7 @@ package ascii_art.exceptions;
  * This exception is thrown when the character specification is in an incorrect
  * format.
  */
-public class InvalidCharRemoveException extends InvalidCharOpeartionException {
+public class InvalidCharRemoveException extends InvalidCharOperationException {
     /**
      * Constructs an InvalidCharRemoveException with a default message.
      */

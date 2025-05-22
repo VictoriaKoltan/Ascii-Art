@@ -5,14 +5,12 @@ import java.io.IOException;
 /**
  * Abstract base class for exceptions related to character operations.
  * This class serves as a parent for specific character operation exceptions.
- * Note: There is a typo in the class name (Opeartion instead of Operation),
- * but it's maintained for compatibility.
  */
-public abstract class InvalidCharOpeartionException extends IOException {
+public abstract class InvalidCharOperationException extends IOException {
     /**
      * Constructs an InvalidCharOpeartionException with no message.
      */
-    public InvalidCharOpeartionException() {
+    public InvalidCharOperationException() {
         super();
     }
 
@@ -21,7 +19,7 @@ public abstract class InvalidCharOpeartionException extends IOException {
      *
      * @param message the detail message
      */
-    public InvalidCharOpeartionException(String message) {
+    public InvalidCharOperationException(String message) {
         super(message);
     }
 }

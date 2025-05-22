@@ -9,6 +9,8 @@ import java.io.IOException;
  * Demonstrates basic usage of the ASCII Art algorithm with a sample image.
  */
 public class Main {
+    private static final int DEFAULT_RESOLUTION = 2;
+
     /**
      * Main method that runs the ASCII Art conversion process.
      * Loads an image, sets a resolution and charset, runs the algorithm,
@@ -22,7 +24,7 @@ public class Main {
             Image image = new Image("board.jpeg");
 
             // Set resolution and charset
-            int resolution = 2;
+            int resolution = DEFAULT_RESOLUTION;
             char[] charset = { 'm', 'o' };
 
             // Run algorithm

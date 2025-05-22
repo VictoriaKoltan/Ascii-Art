@@ -3,7 +3,7 @@ package image;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
-import image.Image;
+
 //TODO memento להסביר את השימוש ב
 /**
  * Responsible for computing brightness of images and caching results.
@@ -12,7 +12,7 @@ import image.Image;
 public class BrightnessCalculator {
 
     // Cache to store brightness values of subimages, using hashed pixel data as key
-    private static final Map<String, Double> brightnessCache = new HashMap<>();
+    private static final Map<Color, Double> BRIGHTNESS_CACHE = new HashMap<>();
 
     /**
      * Computes the brightness of a given image (sub-image).
@@ -26,8 +26,8 @@ public class BrightnessCalculator {
         String key = generateImageKey(image);
 
         // Check if brightness has already been computed for this subimage
-        if (brightnessCache.containsKey(key)) {
-            return brightnessCache.get(key);
+        if (BRIGHTNESS_CACHE.containsKey(key)) {
+            return BRIGHTNESS_CACHE.get(key);
         }
 
         double totalGrey = 0;
@@ -53,26 +53,28 @@ public class BrightnessCalculator {
         double brightness = totalGrey / (width * height);
 
         // Store computed brightness in cache
-        brightnessCache.put(key, brightness);
+        BRIGHTNESS_CACHE.put(key, brightness);
         return brightness;
     }
 
     /**
      * Memento of the current brightness cache.
+     * 
      * @return a BrightnessSnapshot with current cached data
      */
     public static BrightnessSnapshot createSnapshot() {
         // Copy the current cache to preserve its state
-        return new BrightnessSnapshot(new HashMap<>(brightnessCache));
+        return new BrightnessSnapshot(new HashMap<>(BRIGHTNESS_CACHE));
     }
 
     /**
      * Restores the brightness cache from a given snapshot.
+     * 
      * @param snapshot the snapshot to restore
      */
     public static void restoreSnapshot(BrightnessSnapshot snapshot) {
-        brightnessCache.clear();
-        brightnessCache.putAll(snapshot.getCache());
+        BRIGHTNESS_CACHE.clear();
+        BRIGHTNESS_CACHE.putAll(snapshot.getCache());
     }
 
     /**

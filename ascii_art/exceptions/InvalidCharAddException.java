@@ -6,7 +6,7 @@ package ascii_art.exceptions;
  * This exception is thrown when the character specification is in an incorrect
  * format.
  */
-public class InvalidCharAddException extends InvalidCharOpeartionException {
+public class InvalidCharAddException extends InvalidCharOperationException {
     /**
      * Constructs an InvalidCharAddException with a default message.
      */

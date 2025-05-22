@@ -1,6 +1,5 @@
 package ascii_art;
 
-import ascii_art.exceptions.InvalidOutputException;
 import ascii_art.exceptions.ParamException;
 import image.Image;
 

@@ -3,7 +3,6 @@ package image;
 import java.awt.Color;
 
 import ascii_art.exceptions.InvalidImageException;
-import image.Image;
 //TODO  למה בחבילה הזאת ולמה מחלקה נפרדת  README להוסיף
 
 /**

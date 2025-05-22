@@ -2,11 +2,10 @@ package ascii_art;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.text.CharacterIterator;
 import java.util.Arrays;
 
 import ascii_art.exceptions.InvalidCharAddException;
-import ascii_art.exceptions.InvalidCharOpeartionException;
+import ascii_art.exceptions.InvalidCharOperationException;
 import ascii_art.exceptions.InvalidCharRemoveException;
 import ascii_art.exceptions.ParamException;
 import image.Image;
@@ -43,9 +42,9 @@ public class CharSet implements IParamHandler {
      * 
      * @param input the input string specifying which characters to operate on
      * @param op    the operation type (ADD or REMOVE)
-     * @throws InvalidCharOpeartionException if the operation is invalid
+     * @throws InvalidCharOperationException if the operation is invalid
      */
-    public void handleOp(String input, Op op) throws InvalidCharOpeartionException {
+    public void handleOp(String input, Op op) throws InvalidCharOperationException {
         if (input.equals("all")) {
             handleAllChars(op);
         } else if (input.length() == 1) {
@@ -128,7 +127,7 @@ public class CharSet implements IParamHandler {
                 throw new InvalidCharRemoveException();
             }
             handleOp(args[1], Op.REMOVE);
-        } catch (InvalidCharOpeartionException ex) {
+        } catch (InvalidCharOperationException ex) {
             System.out.println(ex.getMessage());
         }
     }
@@ -145,7 +144,7 @@ public class CharSet implements IParamHandler {
             }
             String input = args[1];
             handleOp(input, Op.ADD);
-        } catch (InvalidCharOpeartionException ex) {
+        } catch (InvalidCharOperationException ex) {
             System.out.println(ex.getMessage());
         }
     }
