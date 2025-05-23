@@ -12,7 +12,7 @@ import java.util.Map;
 public class BrightnessCalculator {
 
     // Cache to store brightness values of subimages, using hashed pixel data as key
-    private static final Map<Color, Double> BRIGHTNESS_CACHE = new HashMap<>();
+    private static final Map<String, Double> BRIGHTNESS_CACHE = new HashMap<>();
 
     /**
      * Computes the brightness of a given image (sub-image).
