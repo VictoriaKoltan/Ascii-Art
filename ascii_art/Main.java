@@ -4,14 +4,27 @@ import ascii_output.ConsoleAsciiOutput;
 import image.Image;
 import java.io.IOException;
 
+/**
+ * Main entry point for the ASCII Art application.
+ * Demonstrates basic usage of the ASCII Art algorithm with a sample image.
+ */
 public class Main {
+    private static final int DEFAULT_RESOLUTION = 2;
+
+    /**
+     * Main method that runs the ASCII Art conversion process.
+     * Loads an image, sets a resolution and charset, runs the algorithm,
+     * and outputs the result to the console.
+     *
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         try {
             // Load image from file
             Image image = new Image("board.jpeg");
 
             // Set resolution and charset
-            int resolution = 2;
+            int resolution = DEFAULT_RESOLUTION;
             char[] charset = { 'm', 'o' };
 
             // Run algorithm
