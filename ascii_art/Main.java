@@ -21,7 +21,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             // Load image from file
-            Image image = new Image("board.jpeg");
+            Image image = new Image("cat.jpeg");
 
             // Set resolution and charset
             int resolution = DEFAULT_RESOLUTION;

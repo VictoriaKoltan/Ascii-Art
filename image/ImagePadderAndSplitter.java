@@ -83,7 +83,9 @@ public class ImagePadderAndSplitter {
                         pixels[y][x] = image.getPixel(col * blockSize + x, row * blockSize + y);
                     }
                 }
-                subImages[row][col] = new Image(pixels, imgWidth, imgHeight);
+                subImages[row][col] = new Image(pixels, blockSize, blockSize);
+
+//                subImages[row][col] = new Image(pixels, imgWidth, imgHeight);
             }
         }
         return subImages;

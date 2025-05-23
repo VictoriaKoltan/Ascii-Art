@@ -36,6 +36,7 @@ class OutputHandler implements IParamHandler {
     public OutputHandler(String font, String filename) {
         this.font = font;
         this.filename = filename;
+        this.asciiOutput = new ConsoleAsciiOutput();
     }
 
     /**
@@ -145,8 +146,10 @@ class OutputHandler implements IParamHandler {
         switch (format) {
             case HTML:
                 asciiOutput = new HtmlAsciiOutput(filename, font);
+                break;
             case CONSOLE:
                 asciiOutput = new ConsoleAsciiOutput();
+                break;
         }
     }
 

@@ -44,9 +44,10 @@ public class AsciiArtAlgorithm {
     public char[][] run() throws InvalidImageException {
         // Step 1: Pad the original image
         Image paddedImage = ImagePadderAndSplitter.padToPowerOfTwo(image);
+        int adjustedResolution = paddedImage.getWidth() / 2;
 
         // Step 2: Split the padded image into subimages of resolution x resolution
-        Image[][] subImages = ImagePadderAndSplitter.splitToSubImages(paddedImage, resolution);
+        Image[][] subImages = ImagePadderAndSplitter.splitToSubImages(paddedImage, adjustedResolution);
         int rows = subImages.length;
         int cols = subImages[0].length;
 
