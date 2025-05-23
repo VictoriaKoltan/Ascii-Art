@@ -33,9 +33,17 @@ class OutputHandler implements IParamHandler {
      * @param font     font to use for HTML output
      * @param filename filename to use for HTML output
      */
+
+    /**
+     * Current output format, defaults to console
+     */
+    private OutputFormat format = OutputFormat.CONSOLE;
+
     public OutputHandler(String font, String filename) {
         this.font = font;
         this.filename = filename;
+        this.asciiOutput = new ConsoleAsciiOutput();
+
     }
 
     /**
@@ -84,11 +92,6 @@ class OutputHandler implements IParamHandler {
             throw new InvalidOutputException();
         }
     }
-
-    /**
-     * Current output format, defaults to console
-     */
-    private OutputFormat format = OutputFormat.CONSOLE;
 
     /**
      * Outputs the ASCII art using the current output format.
@@ -145,8 +148,10 @@ class OutputHandler implements IParamHandler {
         switch (format) {
             case HTML:
                 asciiOutput = new HtmlAsciiOutput(filename, font);
+                break;
             case CONSOLE:
                 asciiOutput = new ConsoleAsciiOutput();
+                break;
         }
     }
 

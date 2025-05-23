@@ -7,23 +7,9 @@
 
         {
             "type": "java",
-            "name": "Current File",
-            "request": "launch",
-            "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "ascii_art.Main",
-            "projectName": "Ascii-Art_1d18431b"
-        },
-        {
-            "type": "java",
             "name": "Shell",
             "request": "launch",
             "mainClass": "ascii_art.Shell",
-            "projectName": "Ascii-Art_1d18431b",
             "args": "cat.jpeg"
         }
     ]

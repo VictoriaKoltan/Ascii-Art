@@ -25,7 +25,6 @@ public class BrightnessCalculator {
     public static double computeBrightness(Image image) {
         String key = generateImageKey(image);
 
-        // Check if brightness has already been computed for this subimage
         if (BRIGHTNESS_CACHE.containsKey(key)) {
             return BRIGHTNESS_CACHE.get(key);
         }
@@ -34,10 +33,9 @@ public class BrightnessCalculator {
         int width = image.getWidth();
         int height = image.getHeight();
 
-        // Iterate through each pixel and apply grayscale formula
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                Color color = image.getPixel(x, y);
+                Color color = image.getPixel(y, x);
 
                 // Human-perception-based grayscale weights
                 double grey = color.getRed() * 0.2126
@@ -88,7 +86,7 @@ public class BrightnessCalculator {
         StringBuilder sb = new StringBuilder();
         for (int y = 0; y < image.getHeight(); y++) {
             for (int x = 0; x < image.getWidth(); x++) {
-                Color c = image.getPixel(x, y);
+                Color c = image.getPixel(y, x);
                 sb.append(c.getRGB()).append(",");
             }
         }

@@ -92,6 +92,7 @@ public class CharSet implements IParamHandler {
         for (char c : sortedChars) {
             System.out.print(c + " ");
         }
+        System.out.println();
     }
 
     /**
