@@ -29,7 +29,6 @@ public class ImagePadderAndSplitter {
         int newWidth = nextPowerOfTwo(originalWidth);
         int newHeight = nextPowerOfTwo(originalHeight);
 
-        // If already powers of 2, return original image as is
         if (newWidth == originalWidth && newHeight == originalHeight)
             return original;
 
@@ -39,17 +38,15 @@ public class ImagePadderAndSplitter {
 
         Color[][] paddedPixels = new Color[newHeight][newWidth];
 
-        // Fill entire new image with white pixels
         for (int y = 0; y < newHeight; y++) {
             for (int x = 0; x < newWidth; x++) {
                 paddedPixels[y][x] = new Color(WHITE, WHITE, WHITE);
             }
         }
 
-        // Copy original pixels into the center of the new image
         for (int y = 0; y < originalHeight; y++) {
             for (int x = 0; x < originalWidth; x++) {
-                paddedPixels[y + yOffset][x + xOffset] = original.getPixel(x, y);
+                paddedPixels[y + yOffset][x + xOffset] = original.getPixel(y, x);
             }
         }
         // TODO: ADD EXCEPTION HANDLING
@@ -80,12 +77,11 @@ public class ImagePadderAndSplitter {
                 // Copy blockSize × blockSize pixels into each subimage
                 for (int y = 0; y < blockSize; y++) {
                     for (int x = 0; x < blockSize; x++) {
-                        pixels[y][x] = image.getPixel(col * blockSize + x, row * blockSize + y);
+                        pixels[y][x] = image.getPixel(row * blockSize + y, col * blockSize + x);
                     }
                 }
-                subImages[row][col] = new Image(pixels, blockSize, blockSize);
 
-//                subImages[row][col] = new Image(pixels, imgWidth, imgHeight);
+                subImages[row][col] = new Image(pixels, blockSize, blockSize);
             }
         }
         return subImages;

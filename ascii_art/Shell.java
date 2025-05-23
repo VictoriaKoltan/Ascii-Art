@@ -1,5 +1,6 @@
 package ascii_art;
 
+import java.io.IOException;
 import java.util.Map;
 
 import ascii_art.exceptions.InvalidCommandException;
@@ -115,16 +116,19 @@ public class Shell {
      * @throws InvalidImageException if the image cannot be loaded
      */
     public void run(String imageName) throws InvalidImageException {
+        try {
 
-        boolean toContinue = true;
-        String imagePath = imageName;
-        Image image = new Image(imagePath);
-        while (toContinue) {
-            System.out.print(">>>");
-            String instruction = KeyboardInput.readLine();
-            toContinue = handleInstruction(instruction, image);
+            boolean toContinue = true;
+            String imagePath = imageName;
+            Image image = new Image(imagePath);
+            while (toContinue) {
+                System.out.print(">>>");
+                String instruction = KeyboardInput.readLine();
+                toContinue = handleInstruction(instruction, image);
+            }
+        } catch (IOException ex) {
+            throw new InvalidImageException();
         }
-
     }
 
     /**

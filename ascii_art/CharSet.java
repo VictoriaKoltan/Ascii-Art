@@ -49,7 +49,7 @@ public class CharSet implements IParamHandler {
             handleAllChars(op);
         } else if (input.length() == 1) {
             operate(op, input.charAt(0));
-        } else if (input.matches("[a-zA-Z0-9]-[a-zA-Z0-9]")) {
+        } else if (input.matches(".-.")) {
             handleRange(input, op);
         } else {
             if (Op.REMOVE.equals(op)) {
@@ -92,6 +92,7 @@ public class CharSet implements IParamHandler {
         for (char c : sortedChars) {
             System.out.print(c + " ");
         }
+        System.out.println();
     }
 
     /**
