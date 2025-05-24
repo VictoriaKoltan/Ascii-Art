@@ -28,7 +28,7 @@ public class SubImgCharMatcher {
      * @return the best matching ASCII character
      */
     public char getCharByImageBrightness(double brightness) {
-        return cache.getClosestChar(brightness);
+        return cache.getCharByImageBrightness(brightness);
     }
 
     /**
@@ -48,4 +48,31 @@ public class SubImgCharMatcher {
     public void removeChar(char c) {
         cache.removeChar(c);
     }
+
+    //TODO להסביר למה הוספנו מתודות פומביות למחלקה
+    /**
+     * Returns the character from the charset whose brightness is the smallest value
+     * that is greater than or equal to the given brightness. If no such character exists,
+     * returns the brightest character as a fallback.
+     *
+     * @param brightness the normalized brightness value to round up from (in range [0, 1])
+     * @return the character with the closest brightness ≥ given value, or the brightest character
+     */
+    public char getCharByBrightnessUp(double brightness) {
+        return cache.getCharByBrightnessUp(brightness);
+    }
+
+    /**
+     * Returns the character from the charset whose brightness is the largest value
+     * that is less than or equal to the given brightness. If no such character exists,
+     * returns the darkest character as a fallback.
+     *
+     * @param brightness the normalized brightness value to round down from (in range [0, 1])
+     * @return the character with the closest brightness ≤ given value, or the darkest character
+     */
+    public char getCharByBrightnessDown(double brightness) {
+        return cache.getCharByBrightnessDown(brightness);
+    }
+
 }
+

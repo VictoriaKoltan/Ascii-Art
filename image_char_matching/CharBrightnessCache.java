@@ -64,7 +64,7 @@ class CharBrightnessCache {
      * @param brightness normalized brightness in range [0, 1]
      * @return closest matching character
      */
-    public char getClosestChar(double brightness) {
+    public char getCharByImageBrightness(double brightness) {
         char bestChar = '?';
         double minDiff = Double.MAX_VALUE;
 
@@ -130,4 +130,90 @@ class CharBrightnessCache {
             normalizedBrightnessMap.put(c, normalized);
         }
     }
+
+
+    /**
+     * Returns the character with brightness ≥ input, closest from above.
+     * If none found, returns the brightest character.
+     *
+     * @param brightness normalized brightness
+     * @return best character match
+     */
+    //TODO private?
+    char getCharByBrightnessUp(double brightness) {
+        char fallback = '?';
+        double minAbove = Double.MAX_VALUE;
+
+        for (char c : sortedCharset) {
+            double b = normalizedBrightnessMap.get(c);
+            if (b >= brightness && b < minAbove) {
+                minAbove = b;
+                fallback = c;
+            }
+        }
+        return fallback != '?' ? fallback : getBrightestChar();
+    }
+
+    /**
+     * Returns the character with brightness ≤ input, closest from below.
+     * If none found, returns the darkest character.
+     *
+     * @param brightness normalized brightness
+     * @return best character match
+     */
+    //TODO private?
+    char getCharByBrightnessDown(double brightness) {
+        char fallback = '?';
+        double maxBelow = -1;
+
+        for (char c : sortedCharset) {
+            double b = normalizedBrightnessMap.get(c);
+            if (b <= brightness && b > maxBelow) {
+                maxBelow = b;
+                fallback = c;
+            }
+        }
+        return fallback != '?' ? fallback : getDarkestChar();
+    }
+
+    /**
+     * Finds and returns the character in the charset with the highest normalized brightness value.
+     * This represents the brightest ASCII character in terms of visual lightness.
+     *
+     * @return the character with the maximum normalized brightness,
+     *         or '?' if the charset is empty
+     */
+    private char getBrightestChar() {
+        char best = '?';
+        double max = -1;
+        for (char c : sortedCharset) {
+            double b = normalizedBrightnessMap.get(c);
+            if (b > max) {
+                max = b;
+                best = c;
+            }
+        }
+        return best;
+    }
+
+    /**
+     * Finds and returns the character in the charset with the lowest normalized brightness value.
+     * This represents the darkest ASCII character in terms of visual density.
+     *
+     * @return the character with the minimum normalized brightness,
+     *         or '?' if the charset is empty
+     */
+    private char getDarkestChar() {
+        char best = '?';
+        double min = Double.MAX_VALUE;
+        for (char c : sortedCharset) {
+            double b = normalizedBrightnessMap.get(c);
+            if (b < min) {
+                min = b;
+                best = c;
+            }
+        }
+        return best;
+    }
+
 }

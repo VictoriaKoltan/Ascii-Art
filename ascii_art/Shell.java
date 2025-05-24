@@ -93,7 +93,9 @@ public class Shell {
             AsciiArtAlgorithm algorithm = new AsciiArtAlgorithm(
                     img,
                     charSet.getChars(),
-                    resHandler.getInt());
+                    resHandler.getInt()),
+            //TODO
+                    roundHandler;
             char[][] result = algorithm.run();
             outputHandler.out(result);
             return true;

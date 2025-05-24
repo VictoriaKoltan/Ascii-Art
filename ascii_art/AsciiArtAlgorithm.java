@@ -15,6 +15,15 @@ public class AsciiArtAlgorithm {
     private final Image image;
     private final int resolution;
     private final SubImgCharMatcher matcher;
+    private final RoundingMode roundingMode;
+
+
+    /**
+     * Enum to define rounding
+     */
+    public enum RoundingMode {
+        ABS, UP, DOWN
+    }
 
     /**
      * Constructs an algorithm run with the required parameters.
@@ -23,9 +32,10 @@ public class AsciiArtAlgorithm {
      * @param charset    the character set to use for brightness matching
      * @param resolution block size resolution (e.g., 16, 32)
      */
-    public AsciiArtAlgorithm(Image image, char[] charset, int resolution) {
+    public AsciiArtAlgorithm(Image image, char[] charset, int resolution, RoundingMode roundingMode) {
         this.image = image;
         this.resolution = resolution;
+        this.roundingMode = roundingMode;
         this.matcher = new SubImgCharMatcher(charset);
     }
 
@@ -42,16 +52,12 @@ public class AsciiArtAlgorithm {
      * @throws InvalidImageException
      */
     public char[][] run() throws InvalidImageException {
-        // Step 1: Pad the original image
         Image paddedImage = ImagePadderAndSplitter.padToPowerOfTwo(image);
-        int adjustedResolution = paddedImage.getWidth() / 2;
-
-        // Step 2: Split the padded image into subimages of resolution x resolution
-        Image[][] subImages = ImagePadderAndSplitter.splitToSubImages(paddedImage, adjustedResolution);
+        int blockSize = paddedImage.getWidth()/resolution;
+        Image[][] subImages = ImagePadderAndSplitter.splitToSubImages(paddedImage, blockSize);
         int rows = subImages.length;
         int cols = subImages[0].length;
 
-        // Step 3 & 4: Compute brightness and match to characters
         char[][] asciiArt = new char[rows][cols];
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
@@ -61,5 +67,25 @@ public class AsciiArtAlgorithm {
         }
 
         return asciiArt;
+}
+
+    /**
+     * Matches a brightness value to the appropriate ASCII character,
+     * based on the current rounding mode (ABS, UP, or DOWN).
+     *
+     * @param brightness the normalized brightness value in the range [0, 1]
+     * @return the ASCII character whose brightness best matches the input value
+     */
+    private char matchByBrightness(double brightness) {
+        switch (roundingMode) {
+            case UP:
+                return matcher.getCharByBrightnessUp(brightness);
+            case DOWN:
+                return matcher.getCharByBrightnessDown(brightness);
+            case ABS:
+            default:
+                return matcher.getCharByImageBrightness(brightness);
+        }
     }
+
 }
