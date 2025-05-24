@@ -93,7 +93,9 @@ public class Shell {
             AsciiArtAlgorithm algorithm = new AsciiArtAlgorithm(
                     img,
                     charSet.getChars(),
-                    resHandler.getInt());
+                    resHandler.getInt(),
+                    roundHandler.getRoundingMethod()
+                    );
             char[][] result = algorithm.run();
             outputHandler.out(result);
             return true;
@@ -126,7 +128,7 @@ public class Shell {
                 String instruction = KeyboardInput.readLine();
                 toContinue = handleInstruction(instruction, image);
             }
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             throw new InvalidImageException();
         }
     }

@@ -9,54 +9,6 @@ import image.Image;
  * Manages how brightness values are rounded when matching characters.
  */
 class RoundHandler implements IParamHandler {
-    /**
-     * Enumeration for supported rounding methods.
-     */
-    enum RoundingMethod {
-        UP("up"),
-        DOWN("down"),
-        ABS("abs");
-
-        /**
-         * String representation of the rounding method
-         */
-        private final String value;
-
-        /**
-         * Creates a new RoundingMethod with the specified value.
-         * 
-         * @param value string representation of the rounding method
-         */
-        RoundingMethod(String value) {
-            this.value = value;
-        }
-
-        /**
-         * Gets the string representation of the rounding method.
-         * 
-         * @return string representation
-         */
-        public String getValue() {
-            return value;
-        }
-
-        /**
-         * Converts a string to a RoundingMethod.
-         * 
-         * @param str string to convert
-         * @return corresponding RoundingMethod
-         * @throws ParamException if the string doesn't match any rounding method
-         */
-        public static RoundingMethod fromString(String str) throws ParamException {
-            for (int i = 0; i < values().length; i++) {
-                RoundingMethod method = values()[i];
-                if (method.getValue().equals(str)) {
-                    return method;
-                }
-            }
-            throw new InvalidRoundException();
-        }
-    }
 
     /**
      * Current rounding method, defaults to ABS (absolute difference)
@@ -71,6 +23,15 @@ class RoundHandler implements IParamHandler {
     @Override
     public String get() {
         return roundingMethod.getValue();
+    }
+
+    /**
+     * Returns the current rounding method set to this handler.
+     *
+     * @return the current rounding method
+     */
+    public RoundingMethod getRoundingMethod() {
+        return roundingMethod;
     }
 
     /**

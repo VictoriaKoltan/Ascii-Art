@@ -24,7 +24,6 @@ public class BrightnessCalculator {
      */
     public static double computeBrightness(Image image) {
         String key = generateImageKey(image);
-
         if (BRIGHTNESS_CACHE.containsKey(key)) {
             return BRIGHTNESS_CACHE.get(key);
         }
@@ -43,7 +42,9 @@ public class BrightnessCalculator {
                         + color.getBlue() * 0.0722;
 
                 // Normalize pixel brightness to [0,1]
-                totalGrey += grey / 255.0;
+                double normalizedGrey = grey / 255.0;
+
+                totalGrey += normalizedGrey;
             }
         }
 

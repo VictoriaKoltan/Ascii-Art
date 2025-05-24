@@ -23,10 +23,10 @@ public class AsciiArtAlgorithm {
      * @param charset    the character set to use for brightness matching
      * @param resolution block size resolution (e.g., 16, 32)
      */
-    public AsciiArtAlgorithm(Image image, char[] charset, int resolution) {
+    public AsciiArtAlgorithm(Image image, char[] charset, int resolution, RoundingMethod roundingMethod) {
         this.image = image;
         this.resolution = resolution;
-        this.matcher = new SubImgCharMatcher(charset);
+        this.matcher = new SubImgCharMatcher(charset, roundingMethod);
     }
 
     /**
@@ -42,15 +42,12 @@ public class AsciiArtAlgorithm {
      * @throws InvalidImageException
      */
     public char[][] run() throws InvalidImageException {
-        // Step 1: Pad the original image
         Image paddedImage = ImagePadderAndSplitter.padToPowerOfTwo(image);
-
-        // Step 2: Split the padded image into subimages of resolution x resolution
-        Image[][] subImages = ImagePadderAndSplitter.splitToSubImages(paddedImage, resolution);
+        int blockSize = paddedImage.getWidth() / resolution;
+        Image[][] subImages = ImagePadderAndSplitter.splitToSubImages(paddedImage, blockSize);
         int rows = subImages.length;
         int cols = subImages[0].length;
 
-        // Step 3 & 4: Compute brightness and match to characters
         char[][] asciiArt = new char[rows][cols];
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {

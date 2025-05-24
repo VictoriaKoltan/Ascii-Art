@@ -25,7 +25,7 @@ class ResHandler implements IParamHandler {
 
     /**
      * Handles the resolution up command, doubling the number of characters per row.
-     * 
+     *
      * @param img reference image for size constraints
      * @throws InvalidResCommandException if the new resolution exceeds the image
      *                                    width
@@ -42,7 +42,7 @@ class ResHandler implements IParamHandler {
     /**
      * Handles the resolution down command, halving the number of characters per
      * row.
-     * 
+     *
      * @param img reference image for size constraints
      * @throws InvalidResCommandException if the new resolution is below the minimum
      *                                    allowed
@@ -94,8 +94,11 @@ class ResHandler implements IParamHandler {
         String arg = args[1];
         if (arg.equals("up")) {
             handleResUpCommand(img);
+            System.out.println("Resolution set to "+charsPerRow);
+
         } else if (arg.equals("down")) {
             handleResDownCommand(img);
+            System.out.println("Resolution set to "+charsPerRow);
         } else {
             throw new InvalidResCommandException();
         }

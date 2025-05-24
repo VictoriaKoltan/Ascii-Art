@@ -3,8 +3,6 @@ package image;
 import java.awt.Color;
 
 import ascii_art.exceptions.InvalidImageException;
-//TODO  למה בחבילה הזאת ולמה מחלקה נפרדת  README להוסיף
-
 /**
  * Handles padding an image to power-of-two dimensions and splitting it into
  * square blocks.
@@ -64,7 +62,6 @@ public class ImagePadderAndSplitter {
     public static Image[][] splitToSubImages(Image image, int blockSize) {
         int imgWidth = image.getWidth();
         int imgHeight = image.getHeight();
-
         int rows = imgHeight / blockSize;
         int cols = imgWidth / blockSize;
 

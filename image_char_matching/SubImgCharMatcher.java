@@ -1,5 +1,7 @@
 package image_char_matching;
 
+import ascii_art.RoundingMethod;
+
 /**
  * Manages ASCII characters and their brightness values,
  * and provides functionality to match image brightness to characters.
@@ -12,8 +14,9 @@ public class SubImgCharMatcher {
      * 
      * @param charset an array of ASCII characters
      */
-    public SubImgCharMatcher(char[] charset) {
+    public SubImgCharMatcher(char[] charset, RoundingMethod roundingMethod) {
         cache = new CharBrightnessCache();
+        cache.setRoundingMethod(roundingMethod);
         for (char c : charset) {
             cache.addChar(c);
         }

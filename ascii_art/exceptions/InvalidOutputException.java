@@ -7,10 +7,12 @@ package ascii_art.exceptions;
  */
 public class InvalidOutputException extends ParamException {
 
+    public static final String INCORRECT_FORMAT = "Did not change output format due to incorrect format.";
+
     /**
      * Constructs an InvalidOutputException with a message about output format.
      */
     public InvalidOutputException() {
-        super("output format");
+        super(INCORRECT_FORMAT);
     }
 }

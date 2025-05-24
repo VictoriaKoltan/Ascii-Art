@@ -7,10 +7,12 @@ package ascii_art.exceptions;
  */
 public class InvalidRoundException extends ParamException {
 
+    public static final String INCORRECT_FORMAT = "Did not change rounding method due to incorrect format.";
+
     /**
      * Constructs an InvalidRoundException with a message about rounding method.
      */
     public InvalidRoundException() {
-        super("rounding method");
+        super(INCORRECT_FORMAT);
     }
 }

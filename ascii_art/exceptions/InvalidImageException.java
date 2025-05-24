@@ -8,6 +8,9 @@ import java.io.IOException;
  * input/output problems.
  */
 public class InvalidImageException extends IOException {
+    public static final String INVALID_IMAGE_PATH_ARGUMENT = "Invalid image path argument: ";
+    public static final String MESSAGE = "Invalid image path argument";
+
     /**
      * Constructs an InvalidImageException with a message providing the problematic
      * path.
@@ -15,7 +18,7 @@ public class InvalidImageException extends IOException {
      * @param message the invalid image path or error details
      */
     public InvalidImageException(String message) {
-        super("Invalid image path argument: " + message);
+        super(INVALID_IMAGE_PATH_ARGUMENT + message);
     }
 
     /**
@@ -23,6 +26,6 @@ public class InvalidImageException extends IOException {
      * Used when specific path details are not available.
      */
     public InvalidImageException() {
-        super("Invalid image path argument");
+        super(MESSAGE);
     }
 }

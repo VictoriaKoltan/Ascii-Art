@@ -6,10 +6,13 @@ package ascii_art.exceptions;
  * process.
  */
 public class InvalidCommandException extends Exception {
+
+    public static final String MESSAGE = "Did not execute due to incorrect command.";
+
     /**
      * Constructs an InvalidCommandException with a default message.
      */
     public InvalidCommandException() {
-        super("Did not execute due to incorrect command.");
+        super(MESSAGE);
     }
 }
