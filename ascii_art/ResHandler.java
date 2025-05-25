@@ -62,16 +62,7 @@ class ResHandler implements IParamHandler {
      * 
      * @return string representation of the resolution
      */
-    @Override
-    public String get() {
-        return charsPerRow;
-    }
 
-    /**
-     * Gets the current resolution as an integer.
-     * 
-     * @return integer representation of the resolution
-     */
     public int getInt() {
         return Integer.parseInt(charsPerRow);
     }

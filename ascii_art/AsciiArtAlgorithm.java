@@ -19,13 +19,14 @@ public class AsciiArtAlgorithm {
      * Constructs an algorithm run with the required parameters.
      *
      * @param image      the image to convert
-     * @param charset    the character set to use for brightness matching
+     * @param matcher   matcher that will match brightness-pixel
      * @param resolution block size resolution (e.g., 16, 32)
      */
-    public AsciiArtAlgorithm(Image image, char[] charset, int resolution, RoundingMethod roundingMethod) {
+    public AsciiArtAlgorithm(Image image,SubImgCharMatcher matcher, int resolution, RoundingMethod roundingMethod) {
         this.image = image;
         this.resolution = resolution;
-        this.matcher = new SubImgCharMatcher(charset, roundingMethod);
+        this.matcher = matcher;
+        matcher.setRounding(roundingMethod);
     }
 
     /**

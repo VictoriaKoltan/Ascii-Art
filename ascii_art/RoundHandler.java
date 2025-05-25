@@ -20,16 +20,6 @@ class RoundHandler implements IParamHandler {
      * 
      * @return string representation of the rounding method
      */
-    @Override
-    public String get() {
-        return roundingMethod.getValue();
-    }
-
-    /**
-     * Returns the current rounding method set to this handler.
-     *
-     * @return the current rounding method
-     */
     public RoundingMethod getRoundingMethod() {
         return roundingMethod;
     }

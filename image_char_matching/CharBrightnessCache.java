@@ -60,6 +60,11 @@ class CharBrightnessCache {
         normalizeBrightness();
     }
 
+
+    TreeSet<Character> getChars() {
+        return sortedCharset;
+    }
+
     /**
      * Returns the character whose normalized brightness is closest to the given value.
      * @param brightness normalized brightness in range [0, 1]

@@ -7,6 +7,7 @@ import ascii_art.exceptions.InvalidCommandException;
 import ascii_art.exceptions.InvalidImageException;
 import ascii_art.exceptions.ParamException;
 import image.Image;
+import image_char_matching.SubImgCharMatcher;
 
 /**
  * Command-line shell for the ASCII Art application.
@@ -39,14 +40,19 @@ public class Shell {
      */
     private final OutputHandler outputHandler;
 
+    private AsciiArtAlgorithm asciiArtAlgorithm;
+    private SubImgCharMatcher subImgCharMatcher;
+
     /**
      * Initializes the shell with default handlers and settings.
      */
     public Shell() {
-        charSet = new CharSet();
         resHandler = new ResHandler(2);
         roundHandler = new RoundHandler();
         outputHandler = new OutputHandler("Courier New", "out.html");
+        subImgCharMatcher = new SubImgCharMatcher(new char[]{});
+        charSet = new CharSet(subImgCharMatcher);
+
         handlers = Map.of(
                 "add", charSet,
                 "remove", charSet,
@@ -54,6 +60,7 @@ public class Shell {
                 "res", resHandler,
                 "round", roundHandler,
                 "output", outputHandler);
+
     }
 
     /**
@@ -90,19 +97,23 @@ public class Shell {
      */
     private boolean handleInstruction(String instruction, Image img) throws InvalidImageException {
         if (instruction.equals("asciiArt")) {
-            AsciiArtAlgorithm algorithm = new AsciiArtAlgorithm(
-                    img,
-                    charSet.getChars(),
-                    resHandler.getInt(),
-                    roundHandler.getRoundingMethod()
-                    );
-            char[][] result = algorithm.run();
+            setAlgorithm(img);
+            char[][] result = asciiArtAlgorithm.run();
             outputHandler.out(result);
             return true;
         } else if (instruction.equals("exit")) {
             return false;
         }
         return handleSetting(instruction, img);
+    }
+
+    private void setAlgorithm (Image img){
+        this.asciiArtAlgorithm = new AsciiArtAlgorithm(
+                img,
+                subImgCharMatcher,
+                resHandler.getInt(),
+                roundHandler.getRoundingMethod()
+        );
     }
 
     /**
@@ -123,6 +134,7 @@ public class Shell {
             boolean toContinue = true;
             String imagePath = imageName;
             Image image = new Image(imagePath);
+            setAlgorithm(image);
             while (toContinue) {
                 System.out.print(">>>");
                 String instruction = KeyboardInput.readLine();
