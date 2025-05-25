@@ -1,0 +1,38 @@
+vika_27.02,
+322228727,
+
+1.
+
+2. HashMap<Character, Double>, used in CharBrightnessCache.
+Provides constant-time O(1) average access, insertion, and removal.
+This is crucial for fast brightness-to-character mapping during runtime.
+Memory: Proportional to the size of the character set (typically small).
+
+TreeSet<Character>, used in CharBrightnessCache.
+Guarantees consistent order and enables predictable iteration,
+which is important when brightness values are closely matched.
+Time: O(logn) for insertion, deletion, and lookup.
+Memory: Proportional to the size of the character set
+
+HashMap<String, Double>, used in BrightnessCalculator.
+Avoids redundant brightness calculations for identical sub-images,
+significantly improving performance.
+Time: O(1) average per access
+Memory: Scales with the number of distinct sub-images encountered
+
+3.
+
+4. We added the methods getCharByBrightnessUp(double brightness) and getCharByBrightnessDown(double brightness)
+to SubImgCharMatcher class to support the rounding options required in the assignment.
+The actual logic for finding the character is inside CharBrightnessCache,
+which is a helper class we use to store and calculate brightness values.
+But we didn’t want to expose that class directly. Instead, SubImgCharMatcher serves as a wrapper
+(or façade) class that exposes a clean public API for the rest of the system.
+These methods were added to this class to preserve encapsulation and keep the internal
+details of brightness caching hidden.
+
+5.We modified the saveImage method in the Image class because the saved image was flipped,
+the rows and columns were mixed up. The original loop accessed the pixel array in a way
+that the image didn’t match what was shown in the program.
+We fixed this by correcting the loop order and array access, so the saved image
+now keeps the correct orientation.
