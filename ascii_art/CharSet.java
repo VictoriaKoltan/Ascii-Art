@@ -114,9 +114,9 @@ public class CharSet implements IParamHandler {
                 throw new ParamException();
             }
         } else if (args[0].equals("remove")) {
-            remove(args);
+            handleRemove(args);
         } else if (args[0].equals("add")) {
-            add(args);
+            handleAdd(args);
         }
     }
 
@@ -125,7 +125,7 @@ public class CharSet implements IParamHandler {
      * 
      * @param args command arguments
      */
-    private void remove(String[] args) {
+    private void handleRemove(String[] args) {
         try {
             if (args.length < RANGE_DELIMITER_INDEX) {
                 throw new InvalidCharRemoveException();
@@ -141,7 +141,7 @@ public class CharSet implements IParamHandler {
      * 
      * @param args command arguments
      */
-    private void add(String[] args) {
+    private void handleAdd(String[] args) {
         try {
             if (args.length < RANGE_DELIMITER_INDEX) {
                 throw new InvalidCharAddException();
