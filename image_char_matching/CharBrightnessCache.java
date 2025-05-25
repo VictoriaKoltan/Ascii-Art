@@ -14,7 +14,6 @@ class CharBrightnessCache {
     private final Map<Character, Double> rawBrightnessMap;           // Stores brightness before normalization
     private final Map<Character, Double> normalizedBrightnessMap;    // Stores brightness after normalization
     private final TreeSet<Character> sortedCharset;// Keeps characters sorted by ASCII for tie-breaking
-    private  RoundingMethod roundingMethod;
 
     /**
      * constructor
@@ -23,7 +22,6 @@ class CharBrightnessCache {
         rawBrightnessMap = new HashMap<>();
         normalizedBrightnessMap = new HashMap<>();
         sortedCharset = new TreeSet<>();
-        roundingMethod = RoundingMethod.ABS;
     }
 
     /**
@@ -219,7 +217,4 @@ class CharBrightnessCache {
         return best;
     }
 
-    public void setRoundingMethod(RoundingMethod roundingMethod) {
-        this.roundingMethod = roundingMethod;
-    }
 }
