@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>K:/My Drive/25-B/OOP/EX3/Ascii-Art/newclone/Ascii-Art</OriginalElement>
+  <nodes>
+    <node x="331.0" y="126.0">image.Image</node>
+    <node x="131.0" y="1006.0">ascii_art.exceptions.InvalidCommandException</node>
+    <node x="246.5" y="626.0">ascii_art.AsciiArtAlgorithm</node>
+    <node x="181.0" y="326.0">image.ImagePadderAndSplitter</node>
+    <node x="16.5" y="446.0">ascii_art.exceptions.InvalidCharAddException</node>
+    <node x="155.5" y="186.0">image_char_matching.SubImgCharMatcher</node>
+    <node x="-30.0" y="1126.0">ascii_art.ResHandler</node>
+    <node x="58.0" y="1186.0">ascii_art.OutputHandler</node>
+    <node x="-115.5" y="866.0">ascii_art.exceptions.InvalidOutputException</node>
+    <node x="95.5" y="46.0">ascii_art.Shell</node>
+    <node x="-40.0" y="946.0">ascii_art.exceptions.InvalidRuntimeInputException</node>
+    <node x="-43.0" y="-14.0">image_char_matching.CharConverter</node>
+    <node x="13.0" y="126.0">image.BrightnessCalculator</node>
+    <node x="-110.5" y="506.0">ascii_output.AsciiOutput</node>
+    <node x="169.5" y="1126.0">ascii_art.RunHandler</node>
+    <node x="-8.5" y="626.0">ascii_art.exceptions.ParamException</node>
+    <node x="-131.0" y="186.0">image_char_matching.CharBrightnessCache</node>
+    <node x="-142.5" y="686.0">ascii_output.ConsoleAsciiOutput</node>
+    <node x="161.5" y="506.0">ascii_art.exceptions.InvalidCharRemoveException</node>
+    <node x="-6.0" y="266.0">ascii_art.exceptions.InvalidCharOperationException</node>
+    <node x="-142.0" y="1006.0">ascii_art.IParamHandler</node>
+    <node x="259.5" y="1186.0">ascii_art.RoundHandler</node>
+    <node x="-142.5" y="46.0">ascii_art.KeyboardInput</node>
+    <node x="-132.5" y="326.0">ascii_art.exceptions.InvalidImageException</node>
+    <node x="26.0" y="806.0">ascii_art.exceptions.InvalidRoundException</node>
+    <node x="157.0" y="866.0">ascii_art.exceptions.InvalidResCommandException</node>
+    <node x="111.5" y="686.0">ascii_output.HtmlAsciiOutput</node>
+    <node x="-117.0" y="1186.0">ascii_art.CharSet</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="ascii_art.CharSet" target="ascii_art.IParamHandler" relationship="REALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="ascii_art.exceptions.InvalidResCommandException" target="ascii_art.exceptions.ParamException" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="299.0" y="780.0" />
+      <point x="79.0" y="780.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="ascii_art.exceptions.InvalidCharRemoveException" target="ascii_art.exceptions.InvalidCharOperationException" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="299.0" y="420.0" />
+      <point x="139.0" y="420.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="ascii_art.exceptions.InvalidCharAddException" target="ascii_art.exceptions.InvalidCharOperationException" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="ascii_art.OutputHandler" target="ascii_art.IParamHandler" relationship="REALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="139.0" y="1100.0" />
+      <point x="-61.0" y="1100.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="ascii_art.RoundHandler" target="ascii_art.IParamHandler" relationship="REALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="339.0" y="1100.0" />
+      <point x="-61.0" y="1100.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="ascii_art.RunHandler" target="ascii_art.IParamHandler" relationship="REALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="239.0" y="1100.0" />
+      <point x="-61.0" y="1100.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="ascii_art.exceptions.InvalidOutputException" target="ascii_art.exceptions.ParamException" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="-1.0" y="780.0" />
+      <point x="79.0" y="780.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="ascii_art.exceptions.InvalidRoundException" target="ascii_art.exceptions.ParamException" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="139.0" y="780.0" />
+      <point x="79.0" y="780.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="ascii_output.HtmlAsciiOutput" target="ascii_output.AsciiOutput" relationship="REALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="199.0" y="600.0" />
+      <point x="-41.0" y="600.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="ascii_art.ResHandler" target="ascii_art.IParamHandler" relationship="REALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="39.0" y="1100.0" />
+      <point x="-61.0" y="1100.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="ascii_output.ConsoleAsciiOutput" target="ascii_output.AsciiOutput" relationship="REALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.7967948717948721" showDependencies="false" x="163.07884151247026" y="582.2011263073209" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

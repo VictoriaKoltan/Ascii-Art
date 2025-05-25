@@ -1,10 +1,11 @@
 package image_char_matching;
 
+import ascii_art.RoundingMethod;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
-//TODOזאת אומרת ממש את המתודות בקלס , API להסביר שהקלס עוטף את ה
 /**
  * A helper class responsible for caching character brightness values (raw and normalized),
  * and matching brightness values to characters efficiently.
@@ -12,7 +13,7 @@ import java.util.TreeSet;
 class CharBrightnessCache {
     private final Map<Character, Double> rawBrightnessMap;           // Stores brightness before normalization
     private final Map<Character, Double> normalizedBrightnessMap;    // Stores brightness after normalization
-    private final TreeSet<Character> sortedCharset;                  // Keeps characters sorted by ASCII for tie-breaking
+    private final TreeSet<Character> sortedCharset;// Keeps characters sorted by ASCII for tie-breaking
 
     /**
      * constructor
@@ -139,7 +140,7 @@ class CharBrightnessCache {
      * @param brightness normalized brightness
      * @return best character match
      */
-    //TODO private?
+
     char getCharByBrightnessUp(double brightness) {
         char fallback = '?';
         double minAbove = Double.MAX_VALUE;
@@ -161,7 +162,7 @@ class CharBrightnessCache {
      * @param brightness normalized brightness
      * @return best character match
      */
-    //TODO private?
+
     char getCharByBrightnessDown(double brightness) {
         char fallback = '?';
         double maxBelow = -1;

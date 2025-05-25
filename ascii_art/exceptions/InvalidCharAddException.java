@@ -7,10 +7,13 @@ package ascii_art.exceptions;
  * format.
  */
 public class InvalidCharAddException extends InvalidCharOperationException {
+
+    public static final String MESSAGE = "Did not add due to incorrect format.";
+
     /**
      * Constructs an InvalidCharAddException with a default message.
      */
     public InvalidCharAddException() {
-        super("Did not add due to incorrect format.");
+        super(MESSAGE);
     }
 }

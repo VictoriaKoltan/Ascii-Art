@@ -7,10 +7,13 @@ package ascii_art.exceptions;
  * format.
  */
 public class InvalidCharRemoveException extends InvalidCharOperationException {
+
+    public static final String MESSAGE = "Did not remove due to incorrect format.";
+
     /**
      * Constructs an InvalidCharRemoveException with a default message.
      */
     public InvalidCharRemoveException() {
-        super("Did not remove due to incorrect format.");
+        super(MESSAGE);
     }
 }

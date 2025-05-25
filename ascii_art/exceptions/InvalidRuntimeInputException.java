@@ -6,10 +6,13 @@ package ascii_art.exceptions;
  * execution.
  */
 public class InvalidRuntimeInputException extends RuntimeException {
+
+    public static final String MESSAGE = ">>> ";
+
     /**
      * Constructs an InvalidRuntimeInputException with a default message.
      */
     public InvalidRuntimeInputException() {
-        super(">>> ");
+        super(MESSAGE);
     }
 }

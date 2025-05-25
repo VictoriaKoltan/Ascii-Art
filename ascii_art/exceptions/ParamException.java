@@ -8,21 +8,25 @@ package ascii_art.exceptions;
  */
 public class ParamException extends Exception {
 
+    public static final String MESSAGE = ">>>";
+
     /**
      * Constructs a ParamException with a message specifying which parameter type
      * was incorrect.
      *
-     * @param paramType the type of parameter that had an incorrect format
+     * @param msg the Messagge of the exception
      */
-    public ParamException(String paramType) {
-        super(String.format("Did not change %s due to incorrect format.", paramType));
+    public ParamException(String msg) {
+        super(msg);
     }
+
+
 
     /**
      * Constructs a ParamException with a default message.
      * Used when the specific parameter type is not known or relevant.
      */
     public ParamException() {
-        super(">>>");
+        super(MESSAGE);
     }
 }

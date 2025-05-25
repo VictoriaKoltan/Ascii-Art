@@ -1,19 +1,22 @@
 package image_char_matching;
 
+import ascii_art.RoundingMethod;
+
 /**
  * Manages ASCII characters and their brightness values,
  * and provides functionality to match image brightness to characters.
  */
 public class SubImgCharMatcher {
     private final CharBrightnessCache cache;
-
+    private RoundingMethod roundingMethod;
     /**
      * Constructor that initializes the matcher with a given character set.
      * 
      * @param charset an array of ASCII characters
      */
-    public SubImgCharMatcher(char[] charset) {
+    public SubImgCharMatcher(char[] charset, RoundingMethod roundingMethod) {
         cache = new CharBrightnessCache();
+        this.roundingMethod = roundingMethod;
         for (char c : charset) {
             cache.addChar(c);
         }
@@ -28,51 +31,27 @@ public class SubImgCharMatcher {
      * @return the best matching ASCII character
      */
     public char getCharByImageBrightness(double brightness) {
-        return cache.getCharByImageBrightness(brightness);
+        return matchByBrightness(brightness);
     }
 
     /**
-     * Adds a new character to the character set (if not already included).
-     * 
-     * @param c character to add
-     */
-    public void addChar(char c) {
-        cache.addChar(c);
-    }
-
-    /**
-     * Removes a character from the character set (if it exists).
-     * 
-     * @param c character to remove
-     */
-    public void removeChar(char c) {
-        cache.removeChar(c);
-    }
-
-    //TODO להסביר למה הוספנו מתודות פומביות למחלקה
-    /**
-     * Returns the character from the charset whose brightness is the smallest value
-     * that is greater than or equal to the given brightness. If no such character exists,
-     * returns the brightest character as a fallback.
+     * Matches a brightness value to the appropriate ASCII character,
+     * based on the current rounding mode (ABS, UP, or DOWN).
      *
-     * @param brightness the normalized brightness value to round up from (in range [0, 1])
-     * @return the character with the closest brightness ≥ given value, or the brightest character
+     * @param brightness the normalized brightness value in the range [0, 1]
+     * @return the ASCII character whose brightness best matches the input value
      */
-    public char getCharByBrightnessUp(double brightness) {
-        return cache.getCharByBrightnessUp(brightness);
+    private char matchByBrightness(double brightness) {
+        switch (roundingMethod) {
+            case UP:
+                return cache.getCharByBrightnessUp(brightness);
+            case DOWN:
+                return cache.getCharByBrightnessDown(brightness);
+            case ABS:
+            default:
+                return cache.getCharByImageBrightness(brightness);
+        }
     }
 
-    /**
-     * Returns the character from the charset whose brightness is the largest value
-     * that is less than or equal to the given brightness. If no such character exists,
-     * returns the darkest character as a fallback.
-     *
-     * @param brightness the normalized brightness value to round down from (in range [0, 1])
-     * @return the character with the closest brightness ≤ given value, or the darkest character
-     */
-    public char getCharByBrightnessDown(double brightness) {
-        return cache.getCharByBrightnessDown(brightness);
-    }
 
 }
-
