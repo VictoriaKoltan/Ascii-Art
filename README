@@ -6,7 +6,14 @@ or_israeli
 ### Core Components
 - **AsciiArtAlgorithm**: Main orchestrator that transforms images into ASCII art.
  for each run, it recreated with the new parameters, which handled with independently on different handlers,
- to allow for separation of concerns
+ to allow for separation of concerns.
+ AsciiArtAlgorithm runs the process: it pads and splits the image using ImagePadderAndSplitter,
+ calculates brightness with BrightnessCalculator, and matches brightness to characters using SubImgCharMatcher.
+ Image handles loading and accessing pixel data. BrightnessCalculator avoids repeated calculations using caching,
+ and applies the Memento pattern to save and restore previous brightness states.
+ SubImgCharMatcher maps brightness values to characters, using CharBrightnessCache to store and normalize brightness.
+
+
 - **CharSet**: Manages the available character set for rendering ASCII art. Uses the SubImgCharMatcher data API to add\remove chars and do not maintain state dirtectly,
 Its an Handler to allow for separation of user interface and business logic.
 - **SubImgCharMatcher**: Matches image segments to appropriate ASCII characters using different rounding methods, owned directly by the shell.
