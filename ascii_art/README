@@ -1,7 +1,13 @@
 vika_27.02,
 322228727,
 
-1.
+1.AsciiArtAlgorithm runs the process: it pads and splits the image using ImagePadderAndSplitter,
+calculates brightness with BrightnessCalculator, and matches brightness to characters using SubImgCharMatcher.
+Image handles loading and accessing pixel data. BrightnessCalculator avoids repeated calculations using caching,
+and applies the Memento pattern to save and restore previous brightness states.
+SubImgCharMatcher maps brightness values to characters, using CharBrightnessCache to store and normalize brightness.
+It also supports rounding up, down, or to the nearest match, depending on user input.
+//TODO להוסיף על נחלקות של חלק ב
 
 2. HashMap<Character, Double>, used in CharBrightnessCache.
 Provides constant-time O(1) average access, insertion, and removal.
