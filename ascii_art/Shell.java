@@ -1,6 +1,5 @@
 package ascii_art;
 
-import java.io.IOException;
 import java.util.Map;
 
 import ascii_art.exceptions.InvalidCommandException;
@@ -16,7 +15,7 @@ import image_char_matching.SubImgCharMatcher;
 public class Shell {
 
     /**
-     * Map of command names to their handlers
+     * Map of command to their handlers (factory)
      */
     private final Map<String, IParamHandler> handlers;
 
@@ -40,17 +39,25 @@ public class Shell {
      */
     private final OutputHandler outputHandler;
 
+    /**
+     * Algorithm for converting image to ASCII art
+     */
     private AsciiArtAlgorithm asciiArtAlgorithm;
+
+    /**
+     * the matcher of mapping image brightness to characters
+     */
     private SubImgCharMatcher subImgCharMatcher;
 
     /**
      * Initializes the shell with default handlers and settings.
      */
     public Shell() {
-        resHandler = new ResHandler(2);
+        resHandler = new ResHandler();
         roundHandler = new RoundHandler();
         outputHandler = new OutputHandler("Courier New", "out.html");
-        subImgCharMatcher = new SubImgCharMatcher(new char[]{});
+        // start with an empty character matcher
+        subImgCharMatcher = new SubImgCharMatcher(new char[] {});
         charSet = new CharSet(subImgCharMatcher);
 
         handlers = Map.of(
@@ -107,21 +114,19 @@ public class Shell {
         return handleSetting(instruction, img);
     }
 
-    private void setAlgorithm (Image img){
+    /**
+     * Creates a new ASCII art algorithm instance with current settings.
+     *
+     * @param img the input image to process
+     */
+    private void setAlgorithm(Image img) {
         this.asciiArtAlgorithm = new AsciiArtAlgorithm(
                 img,
                 subImgCharMatcher,
                 resHandler.getInt(),
-                roundHandler.getRoundingMethod()
-        );
+                roundHandler.getRoundingMethod());
     }
 
-    /**
-     * Runs the interactive shell with the specified image.
-     *
-     * @param imageName path to the image file
-     * @throws InvalidImageException if the image cannot be loaded
-     */
     /**
      * Runs the interactive shell with the specified image.
      *
@@ -136,7 +141,7 @@ public class Shell {
             Image image = new Image(imagePath);
             setAlgorithm(image);
             while (toContinue) {
-                System.out.print(">>>");
+                System.out.print(">>> ");
                 String instruction = KeyboardInput.readLine();
                 toContinue = handleInstruction(instruction, image);
             }

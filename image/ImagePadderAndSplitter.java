@@ -3,13 +3,20 @@ package image;
 import java.awt.Color;
 
 import ascii_art.exceptions.InvalidImageException;
+
 /**
  * Handles padding an image to power-of-two dimensions and splitting it into
  * square blocks.
  */
 public class ImagePadderAndSplitter {
-
+    /**
+     * A constant representing the color white in RGB format.
+     */
     private static final int WHITE = 255;
+    /**
+     * A constant representing the divisor for calculating offsets.
+     */
+    private static final int OFFSET_DIVISOR = 2;
 
     /**
      * Pads the given image with white pixels to make both width and height powers
@@ -31,8 +38,8 @@ public class ImagePadderAndSplitter {
             return original;
 
         // Calculate symmetric offsets for centering the original image
-        int xOffset = (newWidth - originalWidth) / 2;
-        int yOffset = (newHeight - originalHeight) / 2;
+        int xOffset = (newWidth - originalWidth) / OFFSET_DIVISOR;
+        int yOffset = (newHeight - originalHeight) / OFFSET_DIVISOR;
 
         Color[][] paddedPixels = new Color[newHeight][newWidth];
 
@@ -47,7 +54,6 @@ public class ImagePadderAndSplitter {
                 paddedPixels[y + yOffset][x + xOffset] = original.getPixel(y, x);
             }
         }
-        // TODO: ADD EXCEPTION HANDLING
         return new Image(paddedPixels, newWidth, newHeight);
     }
 

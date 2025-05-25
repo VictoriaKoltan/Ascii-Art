@@ -7,8 +7,11 @@ package ascii_art.exceptions;
  * formatted.
  */
 public class ParamException extends Exception {
-
-    public static final String MESSAGE = ">>>";
+    /**
+     * A constant message to be used when an exception is thrown due to an incorrect
+     * param command.
+     */
+    public static final String MESSAGE = ">>> ";
 
     /**
      * Constructs a ParamException with a message specifying which parameter type
@@ -19,8 +22,6 @@ public class ParamException extends Exception {
     public ParamException(String msg) {
         super(msg);
     }
-
-
 
     /**
      * Constructs a ParamException with a default message.

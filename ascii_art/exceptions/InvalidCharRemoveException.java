@@ -8,6 +8,11 @@ package ascii_art.exceptions;
  */
 public class InvalidCharRemoveException extends InvalidCharOperationException {
 
+    /**
+     * A constant message to be used when an exception is thrown due to an incorrect
+     * format
+     * when attempting to remove a character.
+     */
     public static final String MESSAGE = "Did not remove due to incorrect format.";
 
     /**

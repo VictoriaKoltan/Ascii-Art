@@ -14,6 +14,10 @@ class RoundHandler implements IParamHandler {
      * Current rounding method, defaults to ABS (absolute difference)
      */
     private RoundingMethod roundingMethod = RoundingMethod.ABS;
+    /**
+     * Number of arguments expected for rounding commands.
+     */
+    private static final int ARG_COUNT = 2;
 
     /**
      * Gets the string representation of the current rounding method.
@@ -33,7 +37,7 @@ class RoundHandler implements IParamHandler {
      */
     @Override
     public void handleCommand(String[] args, Image img) throws ParamException {
-        if (args.length < 2) {
+        if (args.length < ARG_COUNT) {
             throw new InvalidRoundException();
         }
 

@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
-//TODO memento להסביר את השימוש ב
 /**
  * Responsible for computing brightness of images and caching results.
  * Includes support for Memento pattern to save/restore cache state.
@@ -13,6 +12,26 @@ public class BrightnessCalculator {
 
     // Cache to store brightness values of subimages, using hashed pixel data as key
     private static final Map<String, Double> BRIGHTNESS_CACHE = new HashMap<>();
+
+    /**
+     * Grayscale weight for the red channel.
+     */
+    private static final double RED_WEIGHT = 0.2126;
+
+    /**
+     * Grayscale weight for the green channel.
+     */
+    private static final double GREEN_WEIGHT = 0.7152;
+
+    /**
+     * Grayscale weight for the blue channel.
+     */
+    private static final double BLUE_WEIGHT = 0.0722;
+
+    /**
+     * max RGB value for normalization.
+     */
+    private static final double MAX_RGB_VALUE = 255.0;
 
     /**
      * Computes the brightness of a given image (sub-image).
@@ -37,12 +56,12 @@ public class BrightnessCalculator {
                 Color color = image.getPixel(y, x);
 
                 // Human-perception-based grayscale weights
-                double grey = color.getRed() * 0.2126
-                        + color.getGreen() * 0.7152
-                        + color.getBlue() * 0.0722;
+                double grey = color.getRed() * RED_WEIGHT
+                        + color.getGreen() * GREEN_WEIGHT
+                        + color.getBlue() * BLUE_WEIGHT;
 
                 // Normalize pixel brightness to [0,1]
-                double normalizedGrey = grey / 255.0;
+                double normalizedGrey = grey / MAX_RGB_VALUE;
 
                 totalGrey += normalizedGrey;
             }
@@ -77,7 +96,8 @@ public class BrightnessCalculator {
     }
 
     /**
-     * Generates a unique string key representing the pixel content of the image.
+     * Generates a single per-image string key representing the pixel content of the
+     * image.
      * Concatenates RGB values of all pixels row-by-row.
      *
      * @param image the image to hash
@@ -99,12 +119,28 @@ public class BrightnessCalculator {
      * Used to restore previous state to avoid redundant recalculations.
      */
     public static class BrightnessSnapshot {
+        /**
+         * A cache that stores computed brightness values for characters.
+         * The key is a String char and the value is its fitting brightness
+         */
         private final Map<String, Double> cache;
 
+        /**
+         * Constructor for BrightnessSnapshot.
+         * Creates a new BrightnessSnapshot with the provided cache mapping.
+         *
+         * @param cache Map
+         */
         public BrightnessSnapshot(Map<String, Double> cache) {
             this.cache = cache;
         }
 
+        /**
+         * Returns the current state of the cache.
+         * 
+         * @return a Map containing character strings as keys and their corresponding
+         *         brightness values as Double
+         */
         public Map<String, Double> getCache() {
             return cache;
         }

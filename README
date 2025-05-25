@@ -1,5 +1,5 @@
-or_israeli
-208311365
+vika_27.02,or_israeli
+322228727,208311365
 
 ## Class Structure and Relationships
 
@@ -8,40 +8,55 @@ or_israeli
  for each run, it recreated with the new parameters, which handled with independently on different handlers,
  to allow for separation of concerns.
  AsciiArtAlgorithm runs the process: it pads and splits the image using ImagePadderAndSplitter,
- calculates brightness with BrightnessCalculator, and matches brightness to characters using SubImgCharMatcher.
- Image handles loading and accessing pixel data. BrightnessCalculator avoids repeated calculations using caching,
+ calculates brightness with BrightnessCalculator, 
+ and matches brightness to characters using SubImgCharMatcher.
+ Image handles loading and accessing pixel data. BrightnessCalculator
+  avoids repeated calculations using caching,
  and applies the Memento pattern to save and restore previous brightness states.
- SubImgCharMatcher maps brightness values to characters, using CharBrightnessCache to store and normalize brightness.
+ SubImgCharMatcher maps brightness values to characters, using CharBrightnessCache 
+ to store and normalize brightness.
 
 
-- **CharSet**: Manages the available character set for rendering ASCII art. Uses the SubImgCharMatcher data API to add\remove chars and do not maintain state dirtectly,
+- **CharSet**: Manages the available character set for rendering ASCII art. 
+Uses the SubImgCharMatcher data API
+ to add\remove chars and do not maintain state dirtectly,
 Its an Handler to allow for separation of user interface and business logic.
-- **SubImgCharMatcher**: Matches image segments to appropriate ASCII characters using different rounding methods, owned directly by the shell.
+- **SubImgCharMatcher**: Matches image segments to appropriate ASCII characters using 
+different rounding methods, owned directly by the shell.
 
 ### Image Processing
-- **BrightnessCalculator**: process and caches image brightness values using the Memento pattern
-- **ImagePadderAndSplitter**: Handles padding images to power-of-two dimensions and splits them into blocks
+- **BrightnessCalculator**: process and caches image brightness 
+values using the Memento pattern
+- **ImagePadderAndSplitter**: Handles padding images to 
+power-of-two dimensions and splits them into blocks
 
 ### Character Processing
 - **CharConverter**: Renders characters as binary images for brightness calculation
-- **CharBrightnessCache**: Maintains character brightness values with optimized data structures:
+- **CharBrightnessCache**: Maintains character brightness values with
+ optimized data structures:
   - Maps for O(1) access to raw and normalized brightness values
   - TreeSet for maintaining sorted order when tie-breaking
 
 ### Interface Layer
-- **IParamHandler**: Interface enabling factory pattern for parameter handling. incd. RoundHandller, ResHanlder, OutputHandler,Charset...
+- **IParamHandler**: Interface enabling factory pattern for parameter handling. 
+incd. RoundHandller, ResHanlder, OutputHandler,Charset...
 
 
 ### Exception Handling
-- **Hierarchical Exception Structure**: Created a family of exceptions with `ParamException` as the base
+- **Hierarchical Exception Structure**: Created a 
+family of exceptions with `ParamException` as the base
 - **Verbose Error Messages**: Implemented detailed error reporting for both users and developers
 - **Input Validation**: Robust parameter checking throughout the interface layer
 - **Safe Resource Handling**: Proper cleanup of resources during exceptional conditions
-- **Exception Propagation**: Clear delegation of exception handling responsibilities across layers. Most exceptions realted to Params are inherating from ParamException 
+- **Exception Propagation**: Clear delegation of exception 
+handling responsibilities across layers.
+ Most exceptions realted to Params are inherating from ParamException 
 
 ### Data Structures
-- **Map<Character, Double>**: Used in CharBrightnessCache for O(1) lookup of brightness values
-- **TreeSet<Character>**: Maintains sorted character order for consistent selection when brightness values tie
+- **Map<Character, Double>**: Used in CharBrightnessCache for O(1) 
+lookup of brightness values
+- **TreeSet<Character>**: Maintains sorted character order
+ for consistent selection when brightness values tie
 - **Map<String, Double>**: Powers the BrightnessCalculator cache with optimized lookups
 - **Dictionary<String, IParamHandler>**: Enables clean command pattern implementation in the shell
 
@@ -51,4 +66,6 @@ Its an Handler to allow for separation of user interface and business logic.
 - **Strategy**: Implemented in SubImgCharMatcher for different rounding methods
 
 ### Changes
-- **SubImgCharMatche** addded RoundingMethod to allow to control the rounding method being used (UP,DOWN,ABS). also added getChars to allow charset to get the chars current state
+- **SubImgCharMatche** addded RoundingMethod to allow to 
+control the rounding method being used (UP,DOWN,ABS).
+also added getChars to allow charset to get the chars current state

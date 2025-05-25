@@ -11,6 +11,7 @@ import java.util.TreeSet;
 public class SubImgCharMatcher {
     private final CharBrightnessCache cache;
     private RoundingMethod roundingMethod;
+
     /**
      * Constructor that initializes the matcher with a given character set.
      * 
@@ -22,13 +23,25 @@ public class SubImgCharMatcher {
             cache.addChar(c);
         }
     }
-    public void setRounding(RoundingMethod roundingMethod){
+
+    /**
+     * Sets the rounding method used for character brightness matching.
+     * 
+     * @param roundingMethod the rounding method to use (UP, DOWN, or ABS)
+     */
+    public void setRounding(RoundingMethod roundingMethod) {
         this.roundingMethod = roundingMethod;
     }
 
-    public TreeSet<Character> getChars(){
+    /**
+     * Gets the set of all characters available in the matcher.
+     * 
+     * @return a sorted set of all characters
+     */
+    public TreeSet<Character> getChars() {
         return cache.getChars();
     }
+
     /**
      * Returns the character whose normalized brightness is closest to the input.
      * If multiple characters have the same brightness difference, returns the one
@@ -62,6 +75,7 @@ public class SubImgCharMatcher {
 
     /**
      * Adds a new character to the character set (if not already included).
+     * 
      * @param c character to add
      */
     public void addChar(char c) {
@@ -70,12 +84,11 @@ public class SubImgCharMatcher {
 
     /**
      * Removes a character from the character set (if it exists).
+     * 
      * @param c character to remove
      */
     public void removeChar(char c) {
         cache.removeChar(c);
     }
-
-
 
 }

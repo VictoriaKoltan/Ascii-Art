@@ -16,7 +16,26 @@ import image_char_matching.SubImgCharMatcher;
  */
 public class CharSet implements IParamHandler {
 
+    /**
+     * Minimum ASCII value for printable characters.
+     */
+    private static final int MIN_PRINTABLE_ASCII = 32;
+
+    /**
+     * Maximum ASCII value for printable characters (exclusive).
+     */
+    private static final int MAX_PRINTABLE_ASCII = 127;
+
+    /**
+     * Index of the delimiter in a character range string (e.g., "a-z").
+     */
+    private static final int RANGE_DELIMITER_INDEX = 2;
+
+    /**
+     * The matcher used for character matching and manipulation.
+     */
     private SubImgCharMatcher matcher;
+
     /**
      * Enumeration for character operations (add or remove)
      */
@@ -25,15 +44,15 @@ public class CharSet implements IParamHandler {
     }
 
     /**
-     * Constructs a CharSet with default characters (digits 0-9)
+     * Constructs a CharSet with default characters (digits 0-9).
+     * 
+     * @param matcher the SubImgCharMatcher used for character matching
      */
     public CharSet(SubImgCharMatcher matcher) {
         this.matcher = matcher;
         handleRange("0-9", Op.ADD);
 
     }
-
-
 
     /**
      * Handles character operations based on operation type and input.
@@ -58,7 +77,6 @@ public class CharSet implements IParamHandler {
         }
 
     }
-
 
     /**
      * Prints the characters in the set in sorted order.
@@ -89,7 +107,7 @@ public class CharSet implements IParamHandler {
      */
     @Override
     public void handleCommand(String[] args, Image img) throws ParamException {
-        if (args.length < 2) {
+        if (args.length < RANGE_DELIMITER_INDEX) {
             if (args[0].equals("chars")) {
                 printChars();
             } else {
@@ -109,7 +127,7 @@ public class CharSet implements IParamHandler {
      */
     private void remove(String[] args) {
         try {
-            if (args.length < 2) {
+            if (args.length < RANGE_DELIMITER_INDEX) {
                 throw new InvalidCharRemoveException();
             }
             handleOp(args[1], Op.REMOVE);
@@ -125,7 +143,7 @@ public class CharSet implements IParamHandler {
      */
     private void add(String[] args) {
         try {
-            if (args.length < 2) {
+            if (args.length < RANGE_DELIMITER_INDEX) {
                 throw new InvalidCharAddException();
             }
             String input = args[1];
@@ -154,7 +172,7 @@ public class CharSet implements IParamHandler {
      * @param op the operation type
      */
     private void handleAllChars(Op op) {
-        for (char c = 32; c < 127; c++) {
+        for (char c = MIN_PRINTABLE_ASCII; c < MAX_PRINTABLE_ASCII; c++) {
             operate(op, c);
         }
     }
@@ -167,7 +185,7 @@ public class CharSet implements IParamHandler {
      */
     private void handleRange(String range, Op op) {
         char start = range.charAt(0);
-        char end = range.charAt(2);
+        char end = range.charAt(RANGE_DELIMITER_INDEX);
         if (start > end) {
             char temp = start;
             end = start;

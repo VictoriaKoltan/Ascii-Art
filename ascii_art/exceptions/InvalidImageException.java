@@ -8,7 +8,15 @@ import java.io.IOException;
  * input/output problems.
  */
 public class InvalidImageException extends IOException {
+    /**
+     * A constant message to be used when an exception is thrown due to an incorrect
+     * argument
+     */
     public static final String INVALID_IMAGE_PATH_ARGUMENT = "Invalid image path argument: ";
+    /**
+     * A constant message to be used when an exception is thrown due to an incorrect
+     * argument
+     */
     public static final String MESSAGE = "Invalid image path argument";
 
     /**

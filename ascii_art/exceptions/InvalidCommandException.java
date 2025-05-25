@@ -6,7 +6,10 @@ package ascii_art.exceptions;
  * process.
  */
 public class InvalidCommandException extends Exception {
-
+    /**
+     * A constant message to be used when an exception is thrown due to an incorrect
+     * format
+     */
     public static final String MESSAGE = "Did not execute due to incorrect command.";
 
     /**
