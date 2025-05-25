@@ -6,13 +6,16 @@ package ascii_art.exceptions;
  * supported.
  */
 public class InvalidRoundException extends ParamException {
-
-    public static final String INCORRECT_FORMAT = "Did not change rounding method due to incorrect format.";
+    /**
+     * A constant message to be used when an exception is thrown due to an incorrect
+     * round command.
+     */
+    public static final String MSG = "Did not change rounding method due to incorrect format.";
 
     /**
      * Constructs an InvalidRoundException with a message about rounding method.
      */
     public InvalidRoundException() {
-        super(INCORRECT_FORMAT);
+        super(MSG);
     }
 }

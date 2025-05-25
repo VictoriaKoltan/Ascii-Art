@@ -1,7 +1,5 @@
 package ascii_art;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Arrays;
 
 import ascii_art.exceptions.InvalidCharAddException;
@@ -9,6 +7,7 @@ import ascii_art.exceptions.InvalidCharOperationException;
 import ascii_art.exceptions.InvalidCharRemoveException;
 import ascii_art.exceptions.ParamException;
 import image.Image;
+import image_char_matching.SubImgCharMatcher;
 
 /**
  * Manages the set of characters used for ASCII art generation.
@@ -18,9 +17,24 @@ import image.Image;
 public class CharSet implements IParamHandler {
 
     /**
-     * The set of characters available for ASCII art generation
+     * Minimum ASCII value for printable characters.
      */
-    private Set<Character> chars;
+    private static final int MIN_PRINTABLE_ASCII = 32;
+
+    /**
+     * Maximum ASCII value for printable characters (exclusive).
+     */
+    private static final int MAX_PRINTABLE_ASCII = 127;
+
+    /**
+     * Index of the delimiter in a character range string (e.g., "a-z").
+     */
+    private static final int RANGE_DELIMITER_INDEX = 2;
+
+    /**
+     * The matcher used for character matching and manipulation.
+     */
+    private SubImgCharMatcher matcher;
 
     /**
      * Enumeration for character operations (add or remove)
@@ -30,11 +44,14 @@ public class CharSet implements IParamHandler {
     }
 
     /**
-     * Constructs a CharSet with default characters (digits 0-9)
+     * Constructs a CharSet with default characters (digits 0-9).
+     * 
+     * @param matcher the SubImgCharMatcher used for character matching
      */
-    public CharSet() {
-        chars = new HashSet<>();
+    public CharSet(SubImgCharMatcher matcher) {
+        this.matcher = matcher;
         handleRange("0-9", Op.ADD);
+
     }
 
     /**
@@ -62,28 +79,14 @@ public class CharSet implements IParamHandler {
     }
 
     /**
-     * Retrieves the current character set as a string.
-     * 
-     * @return string containing all characters in the set
-     */
-    @Override
-    public String get() {
-        StringBuilder sb = new StringBuilder();
-        for (char c : chars) {
-            sb.append(c);
-        }
-        return sb.toString();
-    }
-
-    /**
      * Prints the characters in the set in sorted order.
      */
     public void printChars() {
 
         // Sort the characters before printing
-        char[] sortedChars = new char[chars.size()];
+        char[] sortedChars = new char[matcher.getChars().size()];
         int i = 0;
-        for (char c : chars) {
+        for (char c : matcher.getChars()) {
             sortedChars[i++] = c;
         }
 
@@ -104,7 +107,7 @@ public class CharSet implements IParamHandler {
      */
     @Override
     public void handleCommand(String[] args, Image img) throws ParamException {
-        if (args.length < 2) {
+        if (args.length < RANGE_DELIMITER_INDEX) {
             if (args[0].equals("chars")) {
                 printChars();
             } else {
@@ -124,7 +127,7 @@ public class CharSet implements IParamHandler {
      */
     private void remove(String[] args) {
         try {
-            if (args.length < 2) {
+            if (args.length < RANGE_DELIMITER_INDEX) {
                 throw new InvalidCharRemoveException();
             }
             handleOp(args[1], Op.REMOVE);
@@ -140,7 +143,7 @@ public class CharSet implements IParamHandler {
      */
     private void add(String[] args) {
         try {
-            if (args.length < 2) {
+            if (args.length < RANGE_DELIMITER_INDEX) {
                 throw new InvalidCharAddException();
             }
             String input = args[1];
@@ -158,9 +161,9 @@ public class CharSet implements IParamHandler {
      */
     private void operate(Op op, char c) {
         if (op == Op.REMOVE)
-            chars.remove(c);
+            matcher.removeChar(c);
         else
-            chars.add(c);
+            matcher.addChar(c);
     }
 
     /**
@@ -169,7 +172,7 @@ public class CharSet implements IParamHandler {
      * @param op the operation type
      */
     private void handleAllChars(Op op) {
-        for (char c = 32; c < 127; c++) {
+        for (char c = MIN_PRINTABLE_ASCII; c < MAX_PRINTABLE_ASCII; c++) {
             operate(op, c);
         }
     }
@@ -182,7 +185,7 @@ public class CharSet implements IParamHandler {
      */
     private void handleRange(String range, Op op) {
         char start = range.charAt(0);
-        char end = range.charAt(2);
+        char end = range.charAt(RANGE_DELIMITER_INDEX);
         if (start > end) {
             char temp = start;
             end = start;
@@ -199,10 +202,9 @@ public class CharSet implements IParamHandler {
      * @return array containing all characters in the set
      */
     public char[] getChars() {
-        // didnt found a better way to convert set to char array
-        char[] charArray = new char[chars.size()];
+        char[] charArray = new char[matcher.getChars().size()];
         int index = 0;
-        for (Character c : chars) {
+        for (Character c : matcher.getChars()) {
             charArray[index++] = c;
         }
         return charArray;

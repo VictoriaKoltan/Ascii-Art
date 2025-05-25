@@ -2,6 +2,8 @@ package image_char_matching;
 
 import ascii_art.RoundingMethod;
 
+import java.util.TreeSet;
+
 /**
  * Manages ASCII characters and their brightness values,
  * and provides functionality to match image brightness to characters.
@@ -9,17 +11,35 @@ import ascii_art.RoundingMethod;
 public class SubImgCharMatcher {
     private final CharBrightnessCache cache;
     private RoundingMethod roundingMethod;
+
     /**
      * Constructor that initializes the matcher with a given character set.
      * 
      * @param charset an array of ASCII characters
      */
-    public SubImgCharMatcher(char[] charset, RoundingMethod roundingMethod) {
+    public SubImgCharMatcher(char[] charset) {
         cache = new CharBrightnessCache();
-        this.roundingMethod = roundingMethod;
         for (char c : charset) {
             cache.addChar(c);
         }
+    }
+
+    /**
+     * Sets the rounding method used for character brightness matching.
+     * 
+     * @param roundingMethod the rounding method to use (UP, DOWN, or ABS)
+     */
+    public void setRounding(RoundingMethod roundingMethod) {
+        this.roundingMethod = roundingMethod;
+    }
+
+    /**
+     * Gets the set of all characters available in the matcher.
+     * 
+     * @return a sorted set of all characters
+     */
+    public TreeSet<Character> getChars() {
+        return cache.getChars();
     }
 
     /**
@@ -53,5 +73,22 @@ public class SubImgCharMatcher {
         }
     }
 
+    /**
+     * Adds a new character to the character set (if not already included).
+     * 
+     * @param c character to add
+     */
+    public void addChar(char c) {
+        cache.addChar(c);
+    }
+
+    /**
+     * Removes a character from the character set (if it exists).
+     * 
+     * @param c character to remove
+     */
+    public void removeChar(char c) {
+        cache.removeChar(c);
+    }
 
 }

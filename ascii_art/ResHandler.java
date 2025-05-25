@@ -15,12 +15,28 @@ class ResHandler implements IParamHandler {
     private String charsPerRow;
 
     /**
+     * initializing with a default resolution of 2 characters
+     * per row.
+     */
+    private static final int DEFAULT_CHARS_PER_ROW = 2;
+
+    /**
+     * Number of arguments expected for resolution commands.
+     */
+    private static final int ARG_COUNT = 2;
+    /**
+     * Multiplier for resolution commands.
+     * Used to double the resolution when increasing.
+     */
+    private static final int MULTIPLIER = 2;
+
+    /**
      * Creates a new ResHandler with the specified number of characters per row.
      * 
      * @param charsPerRow initial number of characters per row
      */
-    public ResHandler(int charsPerRow) {
-        this.charsPerRow = String.valueOf(charsPerRow);
+    public ResHandler() {
+        this.charsPerRow = String.valueOf(DEFAULT_CHARS_PER_ROW);
     }
 
     /**
@@ -32,7 +48,7 @@ class ResHandler implements IParamHandler {
      */
     private void handleResUpCommand(Image img) throws InvalidResCommandException {
         int resInt = Integer.parseInt(charsPerRow);
-        resInt *= 2;
+        resInt *= MULTIPLIER;
         if (resInt > img.getWidth()) {
             throw new InvalidResCommandException();
         }
@@ -50,7 +66,7 @@ class ResHandler implements IParamHandler {
     private void handleResDownCommand(Image img) throws InvalidResCommandException {
         int resInt = Integer.parseInt(charsPerRow);
         int minValue = Math.max(img.getWidth() / img.getHeight(), 1);
-        resInt /= 2;
+        resInt /= MULTIPLIER;
         if (resInt < minValue) {
             throw new InvalidResCommandException();
         }
@@ -62,16 +78,7 @@ class ResHandler implements IParamHandler {
      * 
      * @return string representation of the resolution
      */
-    @Override
-    public String get() {
-        return charsPerRow;
-    }
 
-    /**
-     * Gets the current resolution as an integer.
-     * 
-     * @return integer representation of the resolution
-     */
     public int getInt() {
         return Integer.parseInt(charsPerRow);
     }
@@ -86,7 +93,7 @@ class ResHandler implements IParamHandler {
     @Override
     public void handleCommand(String[] args, Image img) throws InvalidResCommandException {
 
-        if (args.length < 2) {
+        if (args.length < ARG_COUNT) {
             System.out.println(charsPerRow);
             return;
         }
@@ -94,11 +101,11 @@ class ResHandler implements IParamHandler {
         String arg = args[1];
         if (arg.equals("up")) {
             handleResUpCommand(img);
-            System.out.println("Resolution set to "+charsPerRow);
+            System.out.println("Resolution set to " + charsPerRow);
 
         } else if (arg.equals("down")) {
             handleResDownCommand(img);
-            System.out.println("Resolution set to "+charsPerRow);
+            System.out.println("Resolution set to " + charsPerRow);
         } else {
             throw new InvalidResCommandException();
         }

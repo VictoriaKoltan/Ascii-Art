@@ -18,10 +18,5 @@ public interface IParamHandler {
      */
     void handleCommand(String[] args, Image img) throws ParamException;
 
-    /**
-     * Gets the current value of the parameter.
-     * 
-     * @return string representation of the current parameter value
-     */
-    String get();
+
 }

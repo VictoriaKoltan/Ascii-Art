@@ -102,37 +102,10 @@ class OutputHandler implements IParamHandler {
         asciiOutput.out(chars);
     }
 
-    /**
-     * Sets the font for HTML output.
-     * 
-     * @param font font name to use
-     */
-    public void setFont(String font) {
-        this.font = font;
-    }
-
-    /**
-     * Sets the filename for HTML output.
-     * 
-     * @param filename filename to use
-     */
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
-
-    /**
-     * Gets the string representation of the current output format.
-     * 
-     * @return string representation of the format
-     */
-    @Override
-    public String get() {
-        return format.getValue();
-    }
 
     /**
      * Handles output commands and changes the output format.
-     * 
+     *
      * @param args command arguments
      * @param img  reference image (not used)
      * @throws InvalidOutputException if the arguments are invalid

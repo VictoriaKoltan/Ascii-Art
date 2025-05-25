@@ -3,9 +3,6 @@ package ascii_art;
 import ascii_art.exceptions.InvalidRoundException;
 
 /**
-     * Enumeration for supported rounding methods.
-     */
-/**
  * Enumeration representing different methods of rounding numeric values.
  * <p>
  * This enum provides three rounding strategies:

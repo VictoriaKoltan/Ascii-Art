@@ -12,20 +12,38 @@ import image_char_matching.SubImgCharMatcher;
  */
 public class AsciiArtAlgorithm {
 
+    /**
+     * The original image to be converted to ASCII art.
+     * This image is processed by the algorithm to generate corresponding ASCII
+     * characters.
+     */
     private final Image image;
+
+    /**
+     * The resolution for the ASCII art conversion.
+     * This determines the level of detail in the output ASCII art.
+     * Higher resolution results in more detailed ASCII representation of the image.
+     */
     private final int resolution;
+    /**
+     * Matcher that matches brightness of subimages to ASCII characters.
+     */
     private final SubImgCharMatcher matcher;
+
     /**
      * Constructs an algorithm run with the required parameters.
      *
-     * @param image      the image to convert
-     * @param charset    the character set to use for brightness matching
-     * @param resolution block size resolution (e.g., 16, 32)
+     * @param image          the image to convert
+     * @param matcher        matcher that will match brightness-pixel
+     * @param resolution     block size resolution (e.g., 16, 32)
+     * @param roundingMethod method for rounding brightness to character
      */
-    public AsciiArtAlgorithm(Image image, char[] charset, int resolution, RoundingMethod roundingMethod) {
+    public AsciiArtAlgorithm(Image image, SubImgCharMatcher matcher, int resolution,
+            RoundingMethod roundingMethod) {
         this.image = image;
         this.resolution = resolution;
-        this.matcher = new SubImgCharMatcher(charset, roundingMethod);
+        this.matcher = matcher;
+        matcher.setRounding(roundingMethod);
     }
 
     /**

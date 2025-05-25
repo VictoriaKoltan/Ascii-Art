@@ -6,7 +6,10 @@ package ascii_art.exceptions;
  * execution.
  */
 public class InvalidRuntimeInputException extends RuntimeException {
-
+    /**
+     * A constant message to be used when an exception is thrown due to an incorrect
+     * input command.
+     */
     public static final String MESSAGE = ">>> ";
 
     /**
