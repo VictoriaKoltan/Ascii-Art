@@ -15,7 +15,6 @@ public class AsciiArtAlgorithm {
     private final Image image;
     private final int resolution;
     private final SubImgCharMatcher matcher;
-
     /**
      * Constructs an algorithm run with the required parameters.
      *

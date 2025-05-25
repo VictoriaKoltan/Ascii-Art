@@ -8,7 +8,7 @@ import ascii_art.RoundingMethod;
  */
 public class SubImgCharMatcher {
     private final CharBrightnessCache cache;
-
+    private RoundingMethod roundingMethod;
     /**
      * Constructor that initializes the matcher with a given character set.
      * 
@@ -16,7 +16,7 @@ public class SubImgCharMatcher {
      */
     public SubImgCharMatcher(char[] charset, RoundingMethod roundingMethod) {
         cache = new CharBrightnessCache();
-        cache.setRoundingMethod(roundingMethod);
+        this.roundingMethod = roundingMethod;
         for (char c : charset) {
             cache.addChar(c);
         }
@@ -31,24 +31,27 @@ public class SubImgCharMatcher {
      * @return the best matching ASCII character
      */
     public char getCharByImageBrightness(double brightness) {
-        return cache.getClosestChar(brightness);
+        return matchByBrightness(brightness);
     }
 
     /**
-     * Adds a new character to the character set (if not already included).
-     * 
-     * @param c character to add
+     * Matches a brightness value to the appropriate ASCII character,
+     * based on the current rounding mode (ABS, UP, or DOWN).
+     *
+     * @param brightness the normalized brightness value in the range [0, 1]
+     * @return the ASCII character whose brightness best matches the input value
      */
-    public void addChar(char c) {
-        cache.addChar(c);
+    private char matchByBrightness(double brightness) {
+        switch (roundingMethod) {
+            case UP:
+                return cache.getCharByBrightnessUp(brightness);
+            case DOWN:
+                return cache.getCharByBrightnessDown(brightness);
+            case ABS:
+            default:
+                return cache.getCharByImageBrightness(brightness);
+        }
     }
 
-    /**
-     * Removes a character from the character set (if it exists).
-     * 
-     * @param c character to remove
-     */
-    public void removeChar(char c) {
-        cache.removeChar(c);
-    }
+
 }

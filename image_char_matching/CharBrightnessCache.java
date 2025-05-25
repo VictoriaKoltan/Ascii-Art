@@ -1,64 +1,38 @@
 package image_char_matching;
 
+import ascii_art.RoundingMethod;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
-
-import ascii_art.RoundingMethod;
-
 /**
- * A helper class responsible for caching character brightness values (raw and
- * normalized),
+ * A helper class responsible for caching character brightness values (raw and normalized),
  * and matching brightness values to characters efficiently.
  */
 class CharBrightnessCache {
-    private final Map<Character, Double> rawBrightnessMap; // Stores brightness before normalization
-    private final Map<Character, Double> normalizedBrightnessMap; // Stores brightness after normalization
-    private final TreeSet<Character> sortedCharset; // Keeps characters sorted by ASCII for tie-breaking
-
-    // Default rounding method
-    private RoundingMethod roundingMethod = RoundingMethod.ABS;
+    private final Map<Character, Double> rawBrightnessMap;           // Stores brightness before normalization
+    private final Map<Character, Double> normalizedBrightnessMap;    // Stores brightness after normalization
+    private final TreeSet<Character> sortedCharset;// Keeps characters sorted by ASCII for tie-breaking
+    private  RoundingMethod roundingMethod;
 
     /**
      * constructor
-     */
+     * */
     public CharBrightnessCache() {
         rawBrightnessMap = new HashMap<>();
         normalizedBrightnessMap = new HashMap<>();
         sortedCharset = new TreeSet<>();
+        roundingMethod = RoundingMethod.ABS;
     }
 
     /**
-     * Sets the rounding method to use when comparing brightness values.
-     * 
-     * @param method the rounding method to use
-     */
-    public void setRoundingMethod(RoundingMethod method) {
-        if (method != null) {
-            this.roundingMethod = method;
-        }
-    }
-
-    /**
-     * Gets the current rounding method being used.
-     * 
-     * @return the current rounding method
-     */
-    public RoundingMethod getRoundingMethod() {
-        return roundingMethod;
-    }
-
-    /**
-     * Adds a character to the cache, computes its brightness, and updates
-     * normalization.
-     * 
+     * Adds a character to the cache, computes its brightness, and updates normalization.
      * @param c character to add
      */
     public void addChar(char c) {
         // If already added, do nothing
-        if (sortedCharset.contains(c))
-            return;
+        if (sortedCharset.contains(c)) return;
 
         // Compute and cache raw brightness
         double brightness = computeCharBrightness(c);
@@ -73,13 +47,11 @@ class CharBrightnessCache {
 
     /**
      * Removes a character from the cache and updates normalization.
-     * 
      * @param c character to remove
      */
     public void removeChar(char c) {
         // If not present, do nothing
-        if (!sortedCharset.contains(c))
-            return;
+        if (!sortedCharset.contains(c)) return;
 
         // Remove all traces of the character
         rawBrightnessMap.remove(c);
@@ -91,34 +63,17 @@ class CharBrightnessCache {
     }
 
     /**
-     * Returns the character whose normalized brightness is closest to the given
-     * value.
-     * 
+     * Returns the character whose normalized brightness is closest to the given value.
      * @param brightness normalized brightness in range [0, 1]
      * @return closest matching character
      */
-    public char getClosestChar(double brightness) {
+    public char getCharByImageBrightness(double brightness) {
         char bestChar = '?';
         double minDiff = Double.MAX_VALUE;
 
         // Iterate over all cached characters
         for (char c : sortedCharset) {
-            double rawDiff = normalizedBrightnessMap.get(c) - brightness;
-
-            // Apply appropriate rounding method
-            double diff;
-            switch (roundingMethod) {
-                case UP:
-                    diff = (rawDiff > 0) ? rawDiff : 0; // Consider only positive differences
-                    break;
-                case DOWN:
-                    diff = (rawDiff < 0) ? -rawDiff : 0; // Consider only negative differences
-                    break;
-                case ABS:
-                default:
-                    diff = Math.abs(rawDiff);
-                    break;
-            }
+            double diff = Math.abs(normalizedBrightnessMap.get(c) - brightness);
 
             // Pick the character with the smallest difference,
             // break ties by choosing the one with lower ASCII value
@@ -134,14 +89,13 @@ class CharBrightnessCache {
     /**
      * Computes raw brightness of a character using CharConverter.
      * Brightness is the ratio of black pixels (true) to total pixels (always 256).
-     * 
      * @param c character to evaluate
      * @return raw brightness (black pixels / total)
      */
     private double computeCharBrightness(char c) {
         boolean[][] matrix = CharConverter.convertToBoolArray(c);
         int black = 0;
-        int total = matrix.length * matrix[0].length; // 16×16 = 256
+        int total = matrix.length * matrix[0].length;  //  16×16 = 256
 
         // Count black pixels (true values)
         for (boolean[] row : matrix) {
@@ -152,18 +106,16 @@ class CharBrightnessCache {
             }
         }
 
-        return (double) black / total; // Normalize to [0,1]
+        return (double) black / total;  // Normalize to [0,1]
     }
 
     /**
-     * Performs linear normalization for all raw brightness values into [0, 1]
-     * range.
+     * Performs linear normalization for all raw brightness values into [0, 1] range.
      * Updates the normalizedBrightnessMap accordingly.
      */
     private void normalizeBrightness() {
         // Avoid normalization if only one or zero values exist
-        if (rawBrightnessMap.size() < 2)
-            return;
+        if (rawBrightnessMap.size() < 2) return;
 
         // Find min and max brightness among all characters
         double min = Collections.min(rawBrightnessMap.values());
@@ -180,5 +132,94 @@ class CharBrightnessCache {
 
             normalizedBrightnessMap.put(c, normalized);
         }
+    }
+
+
+    /**
+     * Returns the character with brightness ≥ input, closest from above.
+     * If none found, returns the brightest character.
+     *
+     * @param brightness normalized brightness
+     * @return best character match
+     */
+
+    char getCharByBrightnessUp(double brightness) {
+        char fallback = '?';
+        double minAbove = Double.MAX_VALUE;
+
+        for (char c : sortedCharset) {
+            double b = normalizedBrightnessMap.get(c);
+            if (b >= brightness && b < minAbove) {
+                minAbove = b;
+                fallback = c;
+            }
+        }
+        return fallback != '?' ? fallback : getBrightestChar();
+    }
+
+    /**
+     * Returns the character with brightness ≤ input, closest from below.
+     * If none found, returns the darkest character.
+     *
+     * @param brightness normalized brightness
+     * @return best character match
+     */
+
+    char getCharByBrightnessDown(double brightness) {
+        char fallback = '?';
+        double maxBelow = -1;
+
+        for (char c : sortedCharset) {
+            double b = normalizedBrightnessMap.get(c);
+            if (b <= brightness && b > maxBelow) {
+                maxBelow = b;
+                fallback = c;
+            }
+        }
+        return fallback != '?' ? fallback : getDarkestChar();
+    }
+
+    /**
+     * Finds and returns the character in the charset with the highest normalized brightness value.
+     * This represents the brightest ASCII character in terms of visual lightness.
+     *
+     * @return the character with the maximum normalized brightness,
+     *         or '?' if the charset is empty
+     */
+    private char getBrightestChar() {
+        char best = '?';
+        double max = -1;
+        for (char c : sortedCharset) {
+            double b = normalizedBrightnessMap.get(c);
+            if (b > max) {
+                max = b;
+                best = c;
+            }
+        }
+        return best;
+    }
+
+    /**
+     * Finds and returns the character in the charset with the lowest normalized brightness value.
+     * This represents the darkest ASCII character in terms of visual density.
+     *
+     * @return the character with the minimum normalized brightness,
+     *         or '?' if the charset is empty
+     */
+    private char getDarkestChar() {
+        char best = '?';
+        double min = Double.MAX_VALUE;
+        for (char c : sortedCharset) {
+            double b = normalizedBrightnessMap.get(c);
+            if (b < min) {
+                min = b;
+                best = c;
+            }
+        }
+        return best;
+    }
+
+    public void setRoundingMethod(RoundingMethod roundingMethod) {
+        this.roundingMethod = roundingMethod;
     }
 }
