@@ -30,10 +30,11 @@ class ResHandler implements IParamHandler {
      */
     private static final int MULTIPLIER = 2;
 
+    private static final String EXCEEDING_BOUNDARIES_ERR = "Did not change resolution due to exceeding boundaries.";
+
     /**
      * Creates a new ResHandler with the specified number of characters per row.
      * 
-     * @param charsPerRow initial number of characters per row
      */
     public ResHandler() {
         this.charsPerRow = String.valueOf(DEFAULT_CHARS_PER_ROW);
@@ -50,7 +51,7 @@ class ResHandler implements IParamHandler {
         int resInt = Integer.parseInt(charsPerRow);
         resInt *= MULTIPLIER;
         if (resInt > img.getWidth()) {
-            throw new InvalidResCommandException();
+            throw new InvalidResCommandException(EXCEEDING_BOUNDARIES_ERR);
         }
         charsPerRow = String.valueOf(resInt);
     }
@@ -68,7 +69,7 @@ class ResHandler implements IParamHandler {
         int minValue = Math.max(img.getWidth() / img.getHeight(), 1);
         resInt /= MULTIPLIER;
         if (resInt < minValue) {
-            throw new InvalidResCommandException();
+            throw new InvalidResCommandException(EXCEEDING_BOUNDARIES_ERR);
         }
         charsPerRow = String.valueOf(resInt);
     }

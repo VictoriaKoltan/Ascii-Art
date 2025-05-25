@@ -10,13 +10,20 @@ public class InvalidResCommandException extends ParamException {
      * A constant message to be used when an exception is thrown due to an incorrect
      * resolution command.
      */
-    public static final String MSG = "Did not change resolution due to exceeding boundaries.";
-
+    public static final String MSG = "Did not change resolution due to incorrect format.";
     /**
      * Constructs an InvalidResCommandException with a message about rounding
      * method.
      */
     public InvalidResCommandException() {
         super(MSG);
+    }
+    /**
+     * Constructs an InvalidResCommandException with a message about rounding
+     * method.
+     * @param@
+     */
+    public InvalidResCommandException(String command) {
+        super(command);
     }
 }

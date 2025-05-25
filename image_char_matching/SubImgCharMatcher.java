@@ -6,9 +6,6 @@ import java.util.TreeSet;
 
 import ascii_art.RoundingMethod;
 
-import java.util.Map;
-import java.util.TreeSet;
-
 /**
  * Manages ASCII characters and their brightness values,
  * and provides functionality to match image brightness to characters.
@@ -66,23 +63,10 @@ public class SubImgCharMatcher {
      * @return the best matching ASCII character
      */
     public char getCharByImageBrightness(double brightness) {
-        char bestChar = '?';
-        double minDiff = Double.MAX_VALUE;
-
-        // Iterate over all cached characters
-        for (char c : sortedCharset) {
-            double diff = Math.abs(normalizedBrightnessMap.get(c) - brightness);
-
-            // Pick the character with the smallest difference,
-            // break ties by choosing the one with lower ASCII value
-            if (diff < minDiff || (diff == minDiff && c < bestChar)) {
-                minDiff = diff;
-                bestChar = c;
-            }
-        }
-
-        return bestChar;
+        return matchByBrightness(brightness);
     }
+
+
 
     /**
      * Computes raw brightness of a character using CharConverter.
@@ -123,7 +107,7 @@ public class SubImgCharMatcher {
                 return getCharByBrightnessDown(brightness);
             case ABS:
             default:
-                return getCharByImageBrightness(brightness);
+                return getCharByBrightnessAbs(brightness);
         }
     }
 
@@ -214,6 +198,33 @@ public class SubImgCharMatcher {
         // Re-normalize brightness values
         normalizeBrightness();
     }
+
+
+    /**
+     * Returns the character with brightness = input, closest from abs.
+     *
+     * @param brightness normalized brightness
+     * @return best character match
+     */
+
+    private char getCharByBrightnessAbs(double brightness) {
+        char bestChar = '?';
+        double minDiff = Double.MAX_VALUE;
+
+        // Iterate over all cached characters
+        for (char c : sortedCharset) {
+            double diff = Math.abs(normalizedBrightnessMap.get(c) - brightness);
+
+            // Pick the character with the smallest difference,
+            // break ties by choosing the one with lower ASCII value
+            if (diff < minDiff || (diff == minDiff && c < bestChar)) {
+                minDiff = diff;
+                bestChar = c;
+            }
+        }
+        return bestChar;
+    }
+
 
 
     /**

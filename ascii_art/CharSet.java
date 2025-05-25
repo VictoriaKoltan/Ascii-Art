@@ -29,7 +29,7 @@ public class CharSet implements IParamHandler {
     /**
      * Index of the delimiter in a character range string (e.g., "a-z").
      */
-    private static final int RANGE_DELIMITER_INDEX = 2;
+    private static final int BINARY_COMMAND = 2;
 
     /**
      * The matcher used for character matching and manipulation.
@@ -107,16 +107,17 @@ public class CharSet implements IParamHandler {
      */
     @Override
     public void handleCommand(String[] args, Image img) throws ParamException {
-        if (args.length < RANGE_DELIMITER_INDEX) {
+        if (args.length < BINARY_COMMAND) {
             if (args[0].equals("chars")) {
                 printChars();
-            } else {
-                throw new ParamException();
             }
         } else if (args[0].equals("remove")) {
             handleRemove(args);
         } else if (args[0].equals("add")) {
             handleAdd(args);
+        }
+        else {
+            throw new ParamException();
         }
     }
 
@@ -127,7 +128,7 @@ public class CharSet implements IParamHandler {
      */
     private void handleRemove(String[] args) {
         try {
-            if (args.length < RANGE_DELIMITER_INDEX) {
+            if (args.length < BINARY_COMMAND) {
                 throw new InvalidCharRemoveException();
             }
             handleOp(args[1], Op.REMOVE);
@@ -143,7 +144,7 @@ public class CharSet implements IParamHandler {
      */
     private void handleAdd(String[] args) {
         try {
-            if (args.length < RANGE_DELIMITER_INDEX) {
+            if (args.length < BINARY_COMMAND) {
                 throw new InvalidCharAddException();
             }
             String input = args[1];
@@ -185,11 +186,11 @@ public class CharSet implements IParamHandler {
      */
     private void handleRange(String range, Op op) {
         char start = range.charAt(0);
-        char end = range.charAt(RANGE_DELIMITER_INDEX);
+        char end = range.charAt(BINARY_COMMAND);
         if (start > end) {
             char temp = start;
-            end = start;
-            start = temp;
+            start = end;
+            end = temp;
         }
         for (char c = start; c <= end; c++) {
             operate(op, c);

@@ -21,6 +21,7 @@ vika_27.02,or_israeli
 Uses the SubImgCharMatcher data API
  to add\remove chars and do not maintain state dirtectly,
 Its an Handler to allow for separation of user interface and business logic.
+- **ResHandler,RoundHandler,OutputHandler,Charset** - All are the implemting IParamHandler - which allow for extensability with other params in the future if needed. these allow for sepration of concenrs 
 - **SubImgCharMatcher**: Matches image segments to appropriate ASCII characters using 
 different rounding methods, owned directly by the shell.
 
@@ -66,6 +67,6 @@ lookup of brightness values
 - **Strategy**: Implemented in SubImgCharMatcher for different rounding methods
 
 ### Changes
-- **SubImgCharMatche** addded RoundingMethod to allow to 
+- **SubImgCharMatcher** addded RoundingMethod to allow to 
 control the rounding method being used (UP,DOWN,ABS).
 also added getChars to allow charset to get the chars current state
